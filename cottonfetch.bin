@@ -1,0 +1,371 @@
+#!/usr/bin/env bash
+
+if [[ $* == *--help ]]; then
+    echo
+    echo -e "\e[1mcottonfetch v1.5.1\e[0m"
+    echo "created by @plasmacotton"
+    echo
+    echo "special thanks to:"
+    echo "• lilliana.raquel (discord)"
+    echo "• ._peachfuz (discord)"
+    echo "• devereo_bassico (discord)"
+    echo "• Mikel (stackoverflow)"
+    echo "• Dave Dopson (stackoverflow)"
+    echo
+    echo "please do note that this should be in "$PATH". if it isn't, it is reccomended to:"
+    echo
+    echo "run \"sudo/doas/rar mv cottonfetch "$PATH
+    echo "and then \"chmod +x "$PATH"cottonfetch"
+    echo
+    echo "thank you for using cottonfetch <3"
+    echo
+
+else
+
+    MSGN=`echo $(($RANDOM % 5))`
+
+    # thanks devereo_bassico !!
+
+    case $MSGN in
+      1) MSG="LLA LIAH FARCOTTON!!!" ;;
+      2) MSG="olleh!" ;;
+      3) MSG="JOIN THE COTTON CULT!!!" ;;
+      4) MSG="i esu cottonfetch wtb" ;;
+      *) MSG="sknaht rof gnisu cottonfetch!" ;;
+    esac
+
+    # thanks Mikel !
+    # this is what cottonfetch detects, very advanced, i know
+
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        DISTRO=$NAME
+        VER=$VERSION_ID
+    elif type lsb_release >/dev/null 2>&1; then
+        DISTRO=$(lsb_release -si)
+        VER=$(lsb_release -sr)
+    elif [ -f /etc/lsb-release ]; then
+        . /etc/lsb-release
+        DISTRO=$DISTRIB_ID
+        VER=$DISTRIB_RELEASE
+    elif [ -f /etc/debian_version ]; then
+        DISTRIO=Debian
+        VER=$(cat /etc/debian_version)
+    elif [ -f /etc/SuSe-release ]; then
+        ...
+    elif [ -f /etc/redhat-release ]; then
+        ...
+    else
+        DISTRO=$(uname -s)
+        VER=$(uname -r)
+    fi
+
+    TEMP8=`cat /etc/os-release | grep "BUILD_ID"`
+    DISTROVER="${TEMP8//"BUILD_ID="}"
+    
+    if test -d /bedrock; then
+        DISTRO='Bedrock'
+        TEMP8=`cat /bedrock/etc/os-release | grep "VERSION_ID"`
+        TEMP9="${TEMP8//"VERSION_ID=\""}"
+        DISTROVER="${TEMP9%"\""}"
+    fi
+
+    OS=`uname -o`
+    KERNEL=`uname`
+    KERNELVER=`uname -r`
+    ARCH=`uname -m`
+    HOST=`uname -n`
+    USERNAME=`whoami`
+
+    TEMP=`free -m | grep "Mem"`
+    TEMP2="${TEMP//"Mem:"}"
+
+    RAM=`echo $TEMP2 | awk '{print $1}'`
+    RAMUSED=`echo $TEMP2 | awk '{print $2}'`
+
+    if ! [[ `free -m | grep "Swap"` == "0" ]]; then
+    
+        TEMP6=`free -m | grep "Swap"`
+        TEMP7="${TEMP6//"Swap:"}"
+
+        SWAP=`echo $TEMP7 | awk '{print $1}'`
+        SWAPUSED=`echo $TEMP7 | awk '{print $2}'`
+    
+    fi
+        
+    if [[ "$OS" == 'Android' ]]; then
+        TEMP3=`cat /proc/cpuinfo | grep "Hardware" | sort | uniq`
+        TEMP4="${TEMP3//"Processor        :"}"
+    else
+        TEMP3=`cat /proc/cpuinfo | grep "model name" | sort | uniq`
+        TEMP4="${TEMP3//"model name"}"
+    fi
+    
+    CPU=`echo $TEMP4 | awk '{print $2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" "$10" "$11}'`
+
+    TEMP5=`glxinfo | grep "Device"`
+    GPU="${TEMP5//"Device:"}"
+
+    if [[ "$OS" == 'Android' ]]; then
+        GPU="[Termux not supported]"
+    fi
+
+    if [[ "$GPU" == '' ]]; then
+        GPU="Command glxinfo not found! Install the package \"mesa-demos\"!"
+    
+    fi
+
+    if [[ "$OS" == 'Android' ]]; then
+        CPU="[Termux not supported yet]"
+    fi
+
+    # thanks stackoverflow!
+
+    
+    
+    
+    LIGR='\033[0;37m'
+    LIPR='\033[1;35m'
+    LIBL='\033[1;34m'
+    CYAN='\033[0;36m'
+    RED='\033[0;31m'
+    DAGR='\033[1;30m'
+    GREN='\033[0;36m'
+    ORNG='\033[0;33m'
+    WHTE='\033[1;37m'
+    LIGN='\033[1;32m'
+    LIRE='\033[1;31m'
+    NC='\033[0m'
+
+    # aaand here are the distro logos!
+    # MAKE SURE TO REPLACE SPACES WITH WHITESPACE ASCII CHARACTERS FOR IT WILL BREAK!!!
+
+    if [[ "$DISTRO" == 'NixOS' ]]; then
+        DISTROCOLOUR=$LIBL
+        LINE1='⠀⠀⠀⠸⣿⡄⠀⢻⣷⣠⣿⠇⠀⠀⠀ '
+        LINE2='⠀⢀⣶⣶⣿⣿⣶⣶⡿⣿⡏⠀⣠⡀⠀ '
+        LINE3='⠀⠀⠀⢠⣶⠆   ⠹⣷⣴⣿⠃⠀ '
+        LINE4='⢾⣿⣿⣿⣏     ⣹⣿⣿⣿⡷ '
+        LINE5='⠀⢠⣿⠟⣿⣆   ⠰⠿⠃⠀⠀⠀ '
+        LINE6='⠀⠈⠋⠀⣸⣿⣿⠿⠿⣿⣿⠿⠟⠁⠀ '
+        LINE7='⠀⠀⠀⢰⣿⠋⢿⣧⠀⠘⣿⡆⠀⠀⠀ '
+        LINE8='                '
+        LINE9='                '
+    elif [[ "$DISTRO" == 'Debian GNU/Linux' ]]; then
+        DISTROCOLOUR=$RED
+        LINE1='⠀⠀⣠⣶⠿⠶⠶⣤⣄⠀ '
+        LINE2='⢀⡾⠋⠀⠀⠀⠀⠈⢻⡧ '
+        LINE3='⣾⠁⠀⠀⠌⠁⠈⠀⠈⡇ '
+        LINE4='⣏⠀⠀⢀⡄⠀⠀⠀⣰⠃ '
+        LINE5='⢹⡄⠀⠀⠙⠲⠒⠊⠁⠀ '
+        LINE6='⠀⢻⡀        '
+        LINE7=' ⠀⠙⠦⣀⠀⠀⠀⠀⠀ '
+        LINE8='           '
+        LINE9='           '
+    elif [[ "$DISTRO" == 'Arch Linux' ]]; then
+        DISTROCOLOUR=$CYAN
+        LINE1='           '
+        LINE2='⠀⠀⠀⠀⢰⣆⠀⠀⠀⠀ '
+        LINE3='⠀⠀⠀⢠⣿⣿⡄⠀⠀⠀ '
+        LINE4='⠀⠀⢠⣿⣿⣿⣿⡄⠀⠀ '
+        LINE5='⠀⣠⣿⣿⠁⠈⣿⣿⣆⠀ '
+        LINE6='⡰⠟⠋⠉⠀⠀⠉⠙⠻⢆ '
+        LINE7='           '
+        LINE8='           '
+        LINE9='           '
+    elif [[ "$DISTRO" == 'Gentoo' ]]; then
+        DISTROCOLOUR=$LIGR
+        LINE1='           '
+        LINE2='⠀⢠⣴⣶⣶⣦⣄⢀⠀⠀ '
+        LINE3='⢀⠿⣿⣯⣐⣆⣿⣷⣕⠄ '
+        LINE4='⠀⠉⣒⣽⣿⣿⣿⡿⢏⠔ '
+        LINE5='⠀⣾⣿⣿⣿⠿⣋⠔⠉⠀ '
+        LINE6='⠡⣝⣫⡭⠖⠋⠁⠀⠀⠀ '
+        LINE7='           '
+        LINE8='           '
+        LINE9='           '
+    elif [[ "$DISTRO" == 'EndeavourOS' ]]; then # my (plasmacotton) distro of choice
+        DISTROCOLOUR=$LIPR
+        LINE1='           '
+        LINE2='⠀⠀⠀⠀⢠⣾⣦⡀⠀⠀ '
+        LINE3='⠀⠀⢀⣴⣿⣿⣿⣿⣄⠀ '
+        LINE4='⢀⣴⣿⣿⣿⣿⣿⣿⣿⣆ '
+        LINE5='⠈⠽⠿⠿⠿⠿⠿⠿⠟⠋ '
+        LINE6='           '
+        LINE7='           '
+        LINE8='           '
+        LINE9='           '
+    elif [[ "$DISTRO" == 'Bedrock' ]]; then
+        DISTROCOLOUR=$LIGR
+        LINE1='          '
+        LINE2='⣀⣀⠀       '
+        LINE3='⢧⠀⢱⡀      '
+        LINE4=' ⢦⠀⠈⠉⠉⠉⢦⠀ '
+        LINE5='  ⢆⠀⠐⠒⠀⢨⠃ '
+        LINE6='  ⠘⠦⠤⠤⠤⠃  '
+        LINE7='          '
+        LINE8='          '
+        LINE9='          '
+    elif [[ "$OS" == 'Android' ]]; then
+        DISTROCOLOUR=$GREN
+        LINE1='⠀⠀⠀⠀⢂⣀⣀⣀⡐⠀⠀⠀⠀ '
+        LINE2='⠀⠀⢀⣴⣟⣿⣿⣿⣻⣦⡀⠀⠀ '
+        LINE3='⢀⣀⢘⣛⣛⣛⣛⣛⣛⣛⡃⣀⡀ '
+        LINE4='⢸⣿⢸⣿⣿⣿⣿⣿⣿⣿⡇⣿⡇ '
+        LINE5='⢸⣿⢸⣿⣿⣿⣿⣿⣿⣿⡇⣿⡇ '
+        LINE6='⠘⠛⢸⣿⣿⣿⣿⣿⣿⣿⡇⠛⠃ '
+        LINE7='⠀⠀⠈⠉⣿⣿⠉⣿⣿⠉⠁⠀⠀ '
+        LINE8='⠀⠀⠀⠀⠻⠟⠀⠻⠟⠀⠀⠀⠀ '
+        LINE9='              '
+    elif [[ "$DISTRO" == 'Ubuntu' ]]; then
+        DISTROCOLOUR=$ORNG
+        LINE1='           '
+        LINE2='⠀⠀⠀⠀⢀⣠⣄⢴⡶⠀⠀'
+        LINE3='⠀⠀⢀⣾⡆⠛⠛⠳⣶⡀⠀'
+        LINE4='⠀⢾⡷⣿⠀⠀⠀⠀⣉⡁⠀'
+        LINE5='⠀⠀⠈⢿⠇⣤⣤⡴⠿⠁⠀'
+        LINE6='⠀⠀⠀⠀⠈⠙⠋⠺⠷⠀⠀'
+        LINE7='           '
+        LINE8='           '
+        LINE9='           '
+    elif [[ "$DISTRO" == 'Fedora Linux' ]]; then
+        DISTROCOLOUR=$LIBL
+        LINE1='           '
+        LINE2='⠀⣠⣴⣾⣿⣿⣷⣦⣄⠀ '
+        LINE3='⣰⣿⣿⣿⡏⢡⣄⢹⣿⣆ '
+        LINE4='⣿⣿⠟⣛⡇⢘⣻⣿⣿⣿ '
+        LINE5='⣿⣇⠸⡿⠇⣼⣿⣿⣿⠏ '
+        LINE6='⢿⣿⣷⣶⣾⣿⡿⠟⠋⠀ '
+        LINE7='           '
+        LINE8='           '
+        LINE9='           '
+    elif [[ "$DISTRO" == 'KaOS' ]]; then # do people know this distro exists?
+        DISTROCOLOUR=$LIBL
+        LINE1='          '
+        LINE2='⠀⠀⢀⠀⠀⣀⣄⡀⠀⠀'
+        LINE3='⠀⢸⣿⢀⡾⠟⠋⠀⠀⠀'
+        LINE4='⠀⠘⣿⣾⣶⣶⣶⣤⡀⠀'
+        LINE5='⠀⠀⠘⠀⠘⡿⣎⣫⠇⠀'
+        LINE6='⠀⠀⠀⠀⠀⠀⠉⠁⠀⠀'
+        LINE7='          '
+        LINE8='          '
+        LINE9='          '
+    elif [[ "$DISTRO" == 'Oreon' ]]; then
+        DISTROCOLOUR=$WHTE
+        LINE1='              '
+        LINE2='   ⣴⣶⣶⣶⣶⣶⣦⠀   '
+        LINE3='  ⣼⡿⠋   ⠙⢿⣧⠀  '
+        LINE4='⢀⣾⣿⠀⠀⠀⠀⠀⠀⠀⣿⣷⡀⠀'
+        LINE5=' ⢿⣿⠀⠀⠀⠀⠀⠀⠀⣿⡿⠁⠀'
+        LINE6='  ⢻⣷⣄   ⣠⣾⡟⠀  '
+        LINE7='   ⠻⠿⠿⠿⠿⠿⠟⠀   '
+        LINE8='              '
+        LINE9='              '
+    elif [[ "$DISTRO" == 'Void' ]]; then
+        DISTROCOLOUR=$LIGN
+        LINE1='          '
+        LINE2='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
+        LINE3='⠀⠀⠐⠟⠛⠻⣶⡄⠀⠀'
+        LINE4='⠀⣿⠀⢠⣶⡄⠈⣿⡄⠀'
+        LINE5='⠘⣿⡀⠘⠿⠃⠀⣿⠃⠀'
+        LINE6='⠀⠘⠿⣦⣤⣴⠄⠀⠀⠀'
+        LINE7='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
+        LINE8='          '
+        LINE9='          '
+    elif [[ "$DISTRO" == 'Solus' ]]; then
+        DISTROCOLOUR=$LIGR
+        LINE1='            '
+        LINE2='⠀⢀⣤⠖⡛⠛⠛⠶⣤⡀⠀ '
+        LINE3='⢠⠟⠀⣸⣷⡀⠀⠀⠈⢻⡄⠀'
+        LINE4='⡿⠀⣰⣿⣿⡇⣦⡠⣄⡀⣿⠀'
+        LINE5='⣷⠰⠿⠿⠿⡇⣿⠿⠜⡁⣿⠀'
+        LINE6='⠘⣦⠲⢶⣶⣶⣶⡾⢋⣼⠃⠀'
+        LINE7='⠀⠈⠛⠦⣬⣭⣤⠴⠛⠁⠀⠀'
+        LINE8='            '
+        LINE9='            '
+    elif [[ "$DISTRO" == 'Red Hat Enterprise Linux' ]]; then
+        DISTROCOLOUR=$RED
+        LINE1='           '
+        LINE2='           '
+        LINE3='⠀⠀⢠⣿⣶⣿⣶⣄⠀⠀ '
+        LINE4='⣠⣤⠘⢿⣿⣿⣿⣿⡀⠀ '
+        LINE5='⠻⣿⣷⣤⣈⣉⣉⣉⣼⣦ '
+        LINE6='⠀⠈⠙⠻⠿⢿⣿⣿⡿⠟ '
+        LINE7='           '
+        LINE8='           '
+        LINE9='           '
+    elif [[ "$DISTRO" == "openSUSE" ]]; then
+        DISTROCOLOUR=$GREN
+        LINE1='           '
+        LINE2='           '
+        LINE3='⠀⣠⣶⣿⣿⣿⣷⣾⣶⣦ '
+        LINE4='⡼⣻⣛⢿⡿⢿⣿⠿⠾⠙ '
+        LINE5='⠳⣕⡼⠈⠀⠀⠙⠀⠀⠀ '
+        LINE6=' openSUSE  '
+        LINE7='           '
+        LINE8='           '
+        LINE9='           '
+     elif [[ "$DISTRO" == 'FreeBSD' ]]; then
+        DISTROCOLOUR=$RED
+        LINE1='             '
+        LINE2='⢿⣷⢆⣤⣶⣶⣶⡶⣦⣴⣾⡿ '
+        LINE3='⠈⣵⣿⣿⣿⣿⣿⣷⣿⣿⡿⡁ '
+        LINE4='⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿ '
+        LINE5='⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃ '
+        LINE6='⠀⠀⠙⠻⢿⣿⣿⣿⠿⠋⠁⠀ '
+        LINE7='             '
+        LINE8='             '
+        LINE9='             '
+     elif [[ "$DISTRO" == 'Chimera' ]]; then
+        DISTROCOLOUR=$LIRE
+        LINE1='             '
+        LINE2='⢠⣶⣶⣶⣶⠀⣶    ⠀ '
+        LINE3='⢸⣿⣿⡿⢋⣀⣿    ⠀ '
+        LINE4='⠸⠿⠏⢰⡟  ⢠⣤⣤⣤⡄ '
+        LINE5='⢰⣶⣆⠸⣧⣀⣀⣼⠇⣠⣤⡄ '
+        LINE6='⢸⣿⣿⣷⣌⡉⢉⣡⣾⣿⣿⡇ '
+        LINE7='⠸⠿⠿⠿⠿⠇⠸⠿⠿⠿⠿⠇ '
+        LINE8='             '
+        LINE9='             '
+     elif [[ "$DISTRO" == 'Slackware' ]]; then
+        DISTROCOLOUR=$LIBL
+        LINE1='            '
+        LINE2='⠀⢀⡤⣖⣿⣭⣿⣲⢤⡀⠀ '
+        LINE3='⢠⢯⣾⠋⣴⣶⣦⣙⣷⡽⡄ '
+        LINE4='⡞⣿⣿⢷⣦⣬⣍⠛⣿⣿⢳ '
+        LINE5='⢧⣿⣿⣤⣙⣛⣋⣤⣿⣿⡼ '
+        LINE6='⠘⣞⢶⣶⣶⣶⣶⣶⡶⣳⠃ '
+        LINE7='⠀⠈⠓⠯⣿⣛⣿⠽⠚⠁⠀ '
+        LINE8='            '
+        LINE9='            '
+     elif [[ "$DISTRO" == 'SteamOS' ]]; then
+        DISTROCOLOUR=$LIBL
+        LINE1='          '
+        LINE2='⠀⠀⢸⣿⣷⣦⣄⠀⠀ '
+        LINE3='⠀⣠⣤⣬⡙⢻⣿⣦⠀ '
+        LINE4='⣾⣿⣿⣿⣿⡆⢻⣿⡆ '
+        LINE5='⢻⣿⣿⣿⣿⠇⣾⣿⠇ '
+        LINE6='⠀⠉⢛⣋⣡⣾⣿⠏⠀ '
+        LINE7='⠀⠀⢸⡿⠿⠛⠁⠀⠀ '
+        LINE8='          '
+        LINE9='          '
+    else
+        echo "Distro logo not found! Contact @plasmacotton on Discord, or email rivulet.rw@proton.me to help fix this problem!"
+        exit
+    fi
+
+    # THIS IS THE PART IT PRINTS OUT!!! THIS IS WHAT YOU WANT TO EDIT IF YOU WANT TO CUSTOMIZE IT!!
+
+    echo
+    echo -e ${DISTROCOLOUR}$LINE1${NC} ${LIGR}"┌────"${DISTROCOLOUR}$USERNAME${LIGR}"@"${DISTROCOLOUR}$HOST${LIGR}"────"
+    echo -e ${DISTROCOLOUR}$LINE2${NC} "│"${DISTROCOLOUR} "\e[3mOS:\e[0m" ${LIGR} $OS "("$DISTRO", version "$DISTROVER")"
+    echo -e ${DISTROCOLOUR}$LINE3${NC} "│"${DISTROCOLOUR} "\e[3mKernel:\e[0m" ${LIGR} $KERNEL", version" $KERNELVER
+    echo -e ${DISTROCOLOUR}$LINE4${NC} "│"${DISTROCOLOUR} "\e[3mArchitecture:\e[0m" ${LIGR} $ARCH
+    echo -e ${DISTROCOLOUR}$LINE5${NC} "│"${DISTROCOLOUR} "\e[3mRAM:\e[0m" ${LIGR} $RAMUSED"/"$RAM"MB" "("$SWAPUSED"/"$SWAP"MB Swap)"
+    echo -e ${DISTROCOLOUR}$LINE6${NC} "│"${DISTROCOLOUR} "\e[3mCPU:\e[0m" ${LIGR} $CPU 
+    echo -e ${DISTROCOLOUR}$LINE7${NC} "│"${DISTROCOLOUR} "\e[3mGPU:\e[0m" ${LIGR} $GPU 
+    echo -e ${DISTROCOLOUR}$LINE8${NC} "│"
+    echo -e ${DISTROCOLOUR}$LINE9${NC} "│"
+    echo -e ${DISTROCOLOUR}$LINE9${NC} "│"${DISTROCOLOUR} "\e[3m$MSG\e[0m" ${NC}
+    echo
+fi
