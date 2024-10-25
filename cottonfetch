@@ -2,35 +2,36 @@
 
 if [[ $* == *--help ]]; then
     echo
-    echo -e "\e[1mcottonfetch v1.6\e[0m"
+    echo -e "\e[1mcottonfetch v1.6.5\e[0m"
     echo "created by @plasmacotton"
     echo
-    echo "special thanks to:"
-    echo "• lilliana.raquel (discord)"
-    echo "• ._peachfuz (discord)"
-    echo "• devereo_bassico (discord)"
-    echo "• Mikel (stackoverflow)"
-    echo "• Dave Dopson (stackoverflow)"
+    echo "usage:"
+    echo "cottonfetch | the fetch"
+    echo "cottonfetch --help | this message"
+    echo 
+    echo "please do not run this in the tty!"
+    echo 
+    echo "please do note that this should be in a \$PATH. if it isn't, it is reccomended to:"
     echo
-    echo "please do note that this should be in "$PATH". if it isn't, it is reccomended to:"
-    echo
-    echo "run \"sudo/doas/rar mv cottonfetch "$PATH
-    echo "and then \"chmod +x "$PATH"cottonfetch"
+    echo "run \"sudo/doas/rar mv cottonfetch (YOUR \$PATH)"
+    echo "and then \"chmod +x (path to cottonfetch)"
     echo
     echo "thank you for using cottonfetch <3"
     echo
 
 else
 
-    MSGN=`echo $((1 + $RANDOM % 5))`
+    MSGN=`echo $((1 + $RANDOM % 6))`
 
-    # thanks devereo_bassico !!
+    # thanks devereo_bassico on teaching me to use case !!
 
     case $MSGN in
       1) MSG="ih" ;;
       2) MSG="olleh!" ;;
       3) MSG="ecin sceps orb" ;;
       4) MSG="i esu cottonfetch wtb" ;;
+      5) MSG="evol uoy <3" ;;
+      6) MSG="i ekil siht ortsid" ;;
     esac
 
     # thanks Mikel !
@@ -68,17 +69,19 @@ else
         TEMP9="${TEMP8//"VERSION_ID=\""}"
         DISTROVER="${TEMP9%"\""}"
     fi
-
+    
     OS=`uname -o`
     KERNEL=`uname`
     
     KERNELVER=`uname -r`
 
+    # stackoverflow saves me once again...
+
     KVLENGTH=`expr "$KERNELVER" : '.*'`
 
-    printf -v KERNELVER '%.*s' 13 "$KERNELVER"
+    printf -v KERNELVER '%.*s' 15 "$KERNELVER"
 
-    if (( KVLENGTH > 13 )); then
+    if (( KVLENGTH > 15 )); then
         KERNELVER=`echo $KERNELVER"..."`
     fi
     
@@ -107,20 +110,35 @@ else
         TEMP4="${TEMP3//"Processor :"}"
     else
         TEMP3=`cat /proc/cpuinfo | grep "model name" | sort | uniq`
-        TEMP4="${TEMP3//"model name"}"
+        TEMP4="${TEMP3//"Model name"}"
     fi
     
-    CPU=`echo $TEMP4 | awk '{print $2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" "$10" "$11}'`
+    CPU=`echo $TEMP4 | awk '{print $4" "$5" "$6" "$7" "$8" "$9" "$10" "$11" "$12" "$13" "$14" "$15" "$16" "$17" "$18" "$19" "$20" "$21}'`
 
     TEMP5=`glxinfo | grep "Device"`
     GPU="${TEMP5//"Device:"}"
 
-    if [[ "$OS" == 'Android' ]]; then
-        GPU="none"
+    if ! [[ "$GPU" == '' ]]; then
+        GPULENGTH=`expr "$GPU" : '.*'`
+
+        printf -v GPU '%.*s' 30 "$GPU"
+
+        if (( GPULENGTH > 30 )); then
+            GPU=`echo $GPU"..."`
+        fi
+
+    else
+        TEMP5=`lspci | grep "VGA"`
+        GPU="${TEMP5//*"VGA compatible controller:"}"
+        
+
+        if [[ "$GPU" == '' ]]; then
+            GPU="unknown/notfound"
+        fi
     fi
 
-    if [[ "$GPU" == '' ]]; then
-        GPU="Command glxinfo not found! Install the package \"mesa-demos\"! Do not run in tty!"    
+    if [[ "$OS" == 'Android' ]]; then
+        GPU="none"
     fi
 
     if [[ "$CPU" == '' ]]; then
@@ -129,27 +147,30 @@ else
 
     # thanks stackoverflow!
 
-    
-    
-    
-    LIGR='\033[0;37m'
-    LIPR='\033[1;35m'
-    LIBL='\033[1;34m'
-    CYAN='\033[0;36m'
-    RED='\033[0;31m'
-    DAGR='\033[1;30m'
-    GREN='\033[0;36m'
-    ORNG='\033[0;33m'
-    WHTE='\033[1;37m'
-    LIGN='\033[1;32m'
-    LIRE='\033[1;31m'
-    NC='\033[0m'
+    NC='\e[0m'
+    BLCK='\e[0;30m'
+    DAGR='\e[1;30m'
+    RED='\e[0;31m'
+    LIRE='\e[1;31m'
+    GREN='\e[0;32m'
+    LIGN='\e[1;32m'
+    ORNG='\e[0;33m'
+    YLOW='\e[1;33m'
+    BLUE='\e[0;34m'
+    LIBL='\e[1;34m'
+    PRPL='\e[0;35m'
+    LIPR='\e[1;35m'
+    CYAN='\e[0;36m'
+    LICY='\e[1;36m'
+    LIGR='\e[0;37m'
+    WHTE='\e[1;37m'
 
     # aaand here are the distro logos!
     # MAKE SURE TO REPLACE SPACES WITH WHITESPACE ASCII CHARACTERS FOR IT WILL BREAK!!!
 
     if [[ "$DISTRO" == 'NixOS' ]]; then
         DISTROCOLOUR=$LIBL
+        ACCENTCOLOUR=$LICY
         LINE1='⠀⠀⠀⠸⣿⡄⠀⢻⣷⣠⣿⠇⠀⠀⠀ '
         LINE2='⠀⢀⣶⣶⣿⣿⣶⣶⡿⣿⡏⠀⣠⡀⠀ '
         LINE3='⠀⠀⠀⢠⣶⠆   ⠹⣷⣴⣿⠃⠀ '
@@ -161,6 +182,7 @@ else
         LINE9='                '
     elif [[ "$DISTRO" == 'Debian GNU/Linux' ]]; then
         DISTROCOLOUR=$RED
+        ACCENTCOLOUR=$LIGR
         LINE1='⠀⠀⣠⣶⠿⠶⠶⣤⣄⠀ '
         LINE2='⢀⡾⠋⠀⠀⠀⠀⠈⢻⡧ '
         LINE3='⣾⠁⠀⠀⠌⠁⠈⠀⠈⡇ '
@@ -172,6 +194,7 @@ else
         LINE9='           '
     elif [[ "$DISTRO" == 'Arch Linux' ]]; then
         DISTROCOLOUR=$CYAN
+        ACCENTCOLOUR=$LICY
         LINE1='           '
         LINE2='⠀⠀⠀⠀⢰⣆⠀⠀⠀⠀ '
         LINE3='⠀⠀⠀⢠⣿⣿⡄⠀⠀⠀ '
@@ -183,6 +206,7 @@ else
         LINE9='           '
     elif [[ "$DISTRO" == 'Gentoo' ]]; then
         DISTROCOLOUR=$LIGR
+        ACCENTCOLOUR=$LIPR
         LINE1='           '
         LINE2='⠀⢠⣴⣶⣶⣦⣄⢀⠀⠀ '
         LINE3='⢀⠿⣿⣯⣐⣆⣿⣷⣕⠄ '
@@ -194,6 +218,7 @@ else
         LINE9='           '
     elif [[ "$DISTRO" == 'EndeavourOS' ]]; then # my (plasmacotton) distro of choice
         DISTROCOLOUR=$LIPR
+        ACCENTCOLOUR=$PRPL
         LINE1='           '
         LINE2='⠀⠀⠀⠀⢠⣾⣦⡀⠀⠀ '
         LINE3='⠀⠀⢀⣴⣿⣿⣿⣿⣄⠀ '
@@ -205,6 +230,7 @@ else
         LINE9='           '
     elif [[ "$DISTRO" == 'Bedrock' ]]; then
         DISTROCOLOUR=$LIGR
+        ACCENTCOLOUR=$BLCK
         LINE1='          '
         LINE2='⣀⣀⠀       '
         LINE3='⢧⠀⢱⡀      '
@@ -216,6 +242,7 @@ else
         LINE9='          '
     elif [[ "$OS" == 'Android' ]]; then
         DISTROCOLOUR=$GREN
+        ACCENTCOLOUR=$GREN
         LINE1='⠀⠀⠀⠀⢂⣀⣀⣀⡐⠀⠀⠀⠀ '
         LINE2='⠀⠀⢀⣴⣟⣿⣿⣿⣻⣦⡀⠀⠀ '
         LINE3='⢀⣀⢘⣛⣛⣛⣛⣛⣛⣛⡃⣀⡀ '
@@ -227,6 +254,7 @@ else
         LINE9='              '
     elif [[ "$DISTRO" == 'Ubuntu' ]]; then
         DISTROCOLOUR=$ORNG
+        ACCENTCOLOUR=$YLOW
         LINE1='           '
         LINE2='⠀⠀⠀⠀⢀⣠⣄⢴⡶⠀⠀'
         LINE3='⠀⠀⢀⣾⡆⠛⠛⠳⣶⡀⠀'
@@ -238,6 +266,7 @@ else
         LINE9='           '
     elif [[ "$DISTRO" == 'Fedora Linux' ]]; then
         DISTROCOLOUR=$LIBL
+        ACCENTCOLOUR=$BLUE
         LINE1='           '
         LINE2='⠀⣠⣴⣾⣿⣿⣷⣦⣄⠀ '
         LINE3='⣰⣿⣿⣿⡏⢡⣄⢹⣿⣆ '
@@ -249,6 +278,7 @@ else
         LINE9='           '
     elif [[ "$DISTRO" == 'KaOS' ]]; then # do people know this distro exists?
         DISTROCOLOUR=$LIBL
+        ACCENTCOLOUR=$BLUE
         LINE1='          '
         LINE2='⠀⠀⢀⠀⠀⣀⣄⡀⠀⠀'
         LINE3='⠀⢸⣿⢀⡾⠟⠋⠀⠀⠀'
@@ -260,6 +290,7 @@ else
         LINE9='          '
     elif [[ "$DISTRO" == 'Oreon' ]]; then
         DISTROCOLOUR=$WHTE
+        ACCENTCOLOUR=$LIGN
         LINE1='              '
         LINE2='   ⣴⣶⣶⣶⣶⣶⣦⠀   '
         LINE3='  ⣼⡿⠋   ⠙⢿⣧⠀  '
@@ -271,6 +302,7 @@ else
         LINE9='              '
     elif [[ "$DISTRO" == 'Void' ]]; then
         DISTROCOLOUR=$LIGN
+        ACCENTCOLOUR=$WHTE
         LINE1='          '
         LINE2='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
         LINE3='⠀⠀⠐⠟⠛⠻⣶⡄⠀⠀'
@@ -282,6 +314,7 @@ else
         LINE9='          '
     elif [[ "$DISTRO" == 'Solus' ]]; then
         DISTROCOLOUR=$LIGR
+        ACCENTCOLOUR=$BLUE
         LINE1='            '
         LINE2='⠀⢀⣤⠖⡛⠛⠛⠶⣤⡀⠀ '
         LINE3='⢠⠟⠀⣸⣷⡀⠀⠀⠈⢻⡄⠀'
@@ -293,6 +326,7 @@ else
         LINE9='            '
     elif [[ "$DISTRO" == 'Red Hat Enterprise Linux' ]]; then
         DISTROCOLOUR=$RED
+        ACCENTCOLOUR=$LIRE
         LINE1='           '
         LINE2='           '
         LINE3='⠀⠀⢠⣿⣶⣿⣶⣄⠀⠀ '
@@ -304,6 +338,7 @@ else
         LINE9='           '
     elif [[ "$DISTRO" == "openSUSE" ]]; then
         DISTROCOLOUR=$GREN
+        ACCENTCOLOUR=$LIGN
         LINE1='           '
         LINE2='           '
         LINE3='⠀⣠⣶⣿⣿⣿⣷⣾⣶⣦ '
@@ -315,6 +350,7 @@ else
         LINE9='           '
      elif [[ "$DISTRO" == 'FreeBSD' ]]; then
         DISTROCOLOUR=$RED
+        ACCENTCOLOUR=$BLCK
         LINE1='             '
         LINE2='⢿⣷⢆⣤⣶⣶⣶⡶⣦⣴⣾⡿ '
         LINE3='⠈⣵⣿⣿⣿⣿⣿⣷⣿⣿⡿⡁ '
@@ -326,6 +362,7 @@ else
         LINE9='             '
      elif [[ "$DISTRO" == 'Chimera' ]]; then
         DISTROCOLOUR=$LIRE
+        ACCENTCOLOUR=$LIPR
         LINE1='             '
         LINE2='⢠⣶⣶⣶⣶⠀⣶    ⠀ '
         LINE3='⢸⣿⣿⡿⢋⣀⣿    ⠀ '
@@ -337,6 +374,7 @@ else
         LINE9='             '
      elif [[ "$DISTRO" == 'Slackware' ]]; then
         DISTROCOLOUR=$LIBL
+        ACCENTCOLOUR=$BLUE
         LINE1='            '
         LINE2='⠀⢀⡤⣖⣿⣭⣿⣲⢤⡀⠀ '
         LINE3='⢠⢯⣾⠋⣴⣶⣦⣙⣷⡽⡄ '
@@ -348,6 +386,7 @@ else
         LINE9='            '
      elif [[ "$DISTRO" == 'SteamOS' ]]; then
         DISTROCOLOUR=$LIBL
+        ACCENTCOLOUR=$LIPR
         LINE1='          '
         LINE2='⠀⠀⢸⣿⣷⣦⣄⠀⠀ '
         LINE3='⠀⣠⣤⣬⡙⢻⣿⣦⠀ '
@@ -357,24 +396,83 @@ else
         LINE7='⠀⠀⢸⡿⠿⠛⠁⠀⠀ '
         LINE8='          '
         LINE9='          '
+     elif [[ "$DISTRO" == 'Guix System' ]]; then
+        DISTROCOLOUR=$YLOW
+        ACCENTCOLOUR=$ORNG
+        LINE1='                '        
+        LINE2='⠰⣄⣀⣀⣀⠀⠀⠀⠀⠀⣀⣀⣀⣠⠆ '
+        LINE3='⠀⠈⠛⠛⢻⣷⡀⠀⠀⣾⡟⠛⠛⠁⠀ '
+        LINE4='⠀⠀⠀⠀⠀⢿⣧⠀⣼⡿⠀⠀⠀⠀⠀ '
+        LINE5='⠀⠀⠀⠀⠀⠘⣿⣶⣿⠃⠀⠀⠀⠀⠀ '
+        LINE6='⠀⠀⠀⠀⠀⠀⠹⠿⠏⠀⠀⠀⠀⠀⠀ '
+        LINE7='                '
+        LINE8='                '
+        LINE9='                '
+     elif [[ "$DISTRO" == 'Manjaro Linux' ]]; then
+        DISTROCOLOUR=$LIGN
+        ACCENTCOLOUR=$GREN
+        LINE1='              '        
+        LINE2='⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿⣿ '
+        LINE3='⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿⣿ '
+        LINE4='⣿⣿⣿⡇⢠⣤⣤⣤⡄⢸⣿⣿⣿ '
+        LINE5='⣿⣿⣿⡇⢸⣿⣿⣿⡇⢸⣿⣿⣿ '
+        LINE6='⣿⣿⣿⡇⢸⣿⣿⣿⡇⢸⣿⣿⣿ '
+        LINE7='⣿⣿⣿⡇⢸⣿⣿⣿⡇⢸⣿⣿⣿ '
+        LINE8='⣿⣿⣿⡇⢸⣿⣿⣿⡇⢸⣿⣿⣿ '
+        LINE9='              '
+     elif [[ "$DISTRO" == 'Alpine Linux' ]]; then
+        DISTROCOLOUR=$BLUE
+        ACCENTCOLOUR=$LIBL
+        LINE1='           '        
+        LINE2='⠀⠀⣴⣶⣶⣶⣶⣦⠀⠀ '
+        LINE3='⢀⣼⣿⡿⠻⡿⢿⣿⣧⡀ '
+        LINE4='⢾⡿⢋⢴⣦⡀⠢⡙⢿⡷ '
+        LINE5='⠈⢻⣿⣿⣿⣿⣿⣿⡟⠁ '
+        LINE6='⠀⠀⠻⠿⠿⠿⠿⠟⠀⠀ '
+        LINE7='           '
+        LINE8='           '
+        LINE9='           '
+     elif [[ "$DISTRO" == 'TinyCore' ]]; then
+        DISTROCOLOUR=$BLCK
+        ACCENTCOLOUR=$LIGR
+        LINE1='                    '        
+        LINE2='⠀⠀⠀⣠⣴⢶⣤⣾⠿⣷⣄⣤⣤⣤⣤⡶⣦⡀⠀⠀'
+        LINE3='⠀⠀⠀⣿⣇⣀⣿⣧⡞⣹⣿⣿⡇⠘⣿⣛⣛⡃⠀⠀'
+        LINE4='⠀⠀⠀⠈⠉⠉⠉⠛⠛⠛⠁⠉⠁⠀⠈⠉⠉⠁⠀⠀'
+        LINE5='                    '
+        LINE6='                    '
+        LINE7='                    '
+        LINE8='                    '
+        LINE9='                    '
+
     else
         echo "Distro logo not found! Contact @plasmacotton on Discord, or email rivulet.rw@proton.me to help fix this problem!"
-        exit
+        DISTROCOLOUR=$LIGR
+        ACCENTCOLOUR=$RED
+        LINE1='ERROR⣶⣿⣿⣦⠀⠀⠀⠀'
+        LINE2='⠀⠀⠀⠀⠀⡱⠻⠦⣿⡀⠀⠀⠀'
+        LINE3='⠀⠀⠀⠀⢀⠧⠱⠈⢻⣧⠀⠀⠀'
+        LINE4='⠀⠀⠀⢠⠏⠀⠀⠀⠂⢿⣷⡀⠀'
+        LINE5='⠀⠀⢀⡟⠀⠠⠀⠀⠀⢸⣿⣧⠀'
+        LINE6='⠀⠠⢀⠂⢤⡈⠀⠀⢀⠸⠿⡋⠀'
+        LINE7='⠀⠌⡠⠨⠨⣁⣀⣠⣴⠨⢐⢀⠂'
+        LINE8='⠀⠐⠈⠌⠒⠉⠀⠂⠉⠊⠊⠀⠀'
+        LINE9='             '
     fi
 
     # THIS IS THE PART IT PRINTS OUT!!! THIS IS WHAT YOU WANT TO EDIT IF YOU WANT TO CUSTOMIZE IT!!
 
     echo
-    echo -e ${DISTROCOLOUR}$LINE1${NC} ${DISTROCOLOUR}$USERNAME${NC}"@"${DISTROCOLOUR}$HOST
-    echo -e ${DISTROCOLOUR}$LINE2${NC} "┌ "${DISTROCOLOUR}"os"
-    echo -e ${DISTROCOLOUR}$LINE3${NC} "│type ►" ${DISTROCOLOUR} $OS "("$DISTRO", version "$DISTROVER")"
-    echo -e ${DISTROCOLOUR}$LINE4${NC} "│kernel ►" ${DISTROCOLOUR} $KERNEL", version" $KERNELVER
-    echo -e ${DISTROCOLOUR}$LINE5${NC} "│arch ►" ${DISTROCOLOUR} $ARCH
-    echo -e ${DISTROCOLOUR}$LINE6${NC} "┌ "${DISTROCOLOUR}"pc"${LIGR}
-    echo -e ${DISTROCOLOUR}$LINE7${NC} "│ram ►" ${DISTROCOLOUR} $RAMUSED"/"$RAM"MB" "("$SWAPUSED"/"$SWAP"MB Swap)"
-    echo -e ${DISTROCOLOUR}$LINE8${NC} "│cpu ►" ${DISTROCOLOUR} $CPU 
-    echo -e ${DISTROCOLOUR}$LINE9${NC} "│gpu ►" ${DISTROCOLOUR} $GPU 
+    echo -e ${DISTROCOLOUR}$LINE9${NC} ${DISTROCOLOUR}$USERNAME${NC}"@"${ACCENTCOLOUR}$HOST
+    echo -e ${DISTROCOLOUR}$LINE1${NC} "┌ "${ACCENTCOLOUR}"os"
+    echo -e ${DISTROCOLOUR}$LINE2${NC} "│type ►" ${DISTROCOLOUR} $OS ${ACCENTCOLOUR}"("$DISTRO", version "$DISTROVER")"
+    echo -e ${DISTROCOLOUR}$LINE3${NC} "│krnl ►" ${DISTROCOLOUR} $KERNEL", version" ${ACCENTCOLOUR}$KERNELVER
+    echo -e ${DISTROCOLOUR}$LINE4${NC} "│arch ►" ${DISTROCOLOUR} $ARCH
+    echo -e ${DISTROCOLOUR}$LINE5${NC} "┌ "${ACCENTCOLOUR}"pc"${LIGR}
+    echo -e ${DISTROCOLOUR}$LINE6${NC} "│ram ►" ${DISTROCOLOUR} $RAMUSED"/"$RAM"MB" ${ACCENTCOLOUR}"("$SWAPUSED"/"$SWAP"MB Swap)"
+    echo -e ${DISTROCOLOUR}$LINE7${NC} "│cpu ►" ${DISTROCOLOUR} $CPU 
+    echo -e ${DISTROCOLOUR}$LINE8${NC} "│gpu ►" ${DISTROCOLOUR} $GPU 
     echo -e ${DISTROCOLOUR}$LINE9${NC}
-    echo -e ${DISTROCOLOUR}$LINE9${NC} "-"${DISTROCOLOUR} "\e[3m$MSG\e[0m" ${NC}
+    echo -e ${DISTROCOLOUR}$LINE9${NC} "-"${ACCENTCOLOUR} "\e[3m$MSG\e[0m" ${NC}
     echo
 fi
