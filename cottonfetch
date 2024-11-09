@@ -2,7 +2,7 @@
 
 if [[ $* == *--help ]]; then
     echo
-    echo -e "\e[1mcottonfetch v1.6.5\e[0m"
+    echo -e "\e[1mcottonfetch v1.6.6\e[0m"
     echo "created by @plasmacotton"
     echo
     echo "usage:"
@@ -18,10 +18,72 @@ if [[ $* == *--help ]]; then
     echo
     echo "thank you for using cottonfetch <3"
     echo
+    echo "shoutout to Hikari on discord for helping me fix fonts, without them cottonfetch would not be possible anymore!"
+    echo "shoutout to ImmaculateKatz (github) for helping me with a LOT of distro specific stuff"
+    echo
 
 else
 
-    MSGN=`echo $((1 + $RANDOM % 6))`
+    # thanks Mikel !
+    # this is what cottonfetch detects, very advanced, i know
+
+    DISTRO=""
+
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        
+        DISTRO=$NAME
+
+        case $DISTRO in
+
+        'Linux Mint') DISTRO=$VERSION_ID ;;
+        'Deepin') DISTRO=$VERSION_ID ;;
+        
+        *) TEMP8=`cat /etc/os-release | grep "BUILD_ID"`
+        DISTROVER="${TEMP8//"BUILD_ID="}" ;;
+        
+        esac
+        
+    elif type lsb_release >/dev/null 2>&1; then
+    
+        DISTRO=$(lsb_release -si)
+        
+    elif [ -f /etc/lsb-release ]; then
+        . /etc/lsb-release
+        DISTRO=$DISTRIB_ID
+
+    elif [ -f /etc/debian_version ]; then
+        DISTRO="Debian GNU/Linux"
+
+    elif [ -f /etc/SuSe-release ]; then
+        ...
+        
+    elif [ -f /etc/redhat-release ]; then
+        ...
+        
+    else
+        DISTRO=$(uname -s)
+        DISTROVER=$(uname -r)
+        
+    fi
+
+    if ! [[ "$DISTRO" == 'Linux Mint' ]]; then
+        if [ -f /etc/debian_version ]; then
+            DISTROVER=`cat /etc/debian_version`
+        fi
+    fi
+    
+    if test -d /bedrock; then
+        DISTRO='Bedrock'
+        TEMP8=`cat /bedrock/etc/os-release | grep "VERSION_ID"`
+        TEMP9="${TEMP8//"VERSION_ID=\""}"
+        DISTROVER="${TEMP9%"\""}"
+    elif test -d /etc/GoboLinuxVersion; then
+        DISTRO='Gobolinux'
+        DISTROVER=""
+    fi 
+    
+    MSGN=`echo $((1 + $RANDOM % 17))`
 
     # thanks devereo_bassico on teaching me to use case !!
 
@@ -29,47 +91,22 @@ else
       1) MSG="ih" ;;
       2) MSG="olleh!" ;;
       3) MSG="ecin sceps orb" ;;
-      4) MSG="i esu cottonfetch wtb" ;;
+      4) MSG="i esu "$DISTRO" wtb" ;;
       5) MSG="evol uoy <3" ;;
       6) MSG="i ekil siht ortsid" ;;
+      7) MSG="ruoy retupmoc si yllautca etiuq looc" ;;
+      8) MSG="tsaf enihcam, i ekil ti" ;;
+      9) MSG="ruoy retupmoc ylbaborp smaerd ni yranib." ;;
+      10) MSG="teb ruoy draobyek ylterces sevol gnieb depyt no." ;;
+      11) MSG="error: file '/boot/vmlinuz-linux' not found." ;;
+      12) MSG="Minimal BASH-like line editing is supported. For the first word, TAB lists possible command completions. Anywhere else TAB lists possible device or file completions." ;;
+      13) MSG=`whoami`" is not in the sudoers file. This incident will be reported." ;;
+      14) MSG="draobyek ton tneserp, sserp yna yek ot eunitnoc" ;;
+      15) MSG="ERROR: Root device mounted successfully, but /sbin/init does not exist. Bailing out, you are on your own now. Good luck." ;;
+      16) MSG=":(){ :|:& };:" ;;
+      17) MSG="evah uoy deirt gninrut ti ffo dna no niaga?" ;;
     esac
 
-    # thanks Mikel !
-    # this is what cottonfetch detects, very advanced, i know
-
-    if [ -f /etc/os-release ]; then
-        . /etc/os-release
-        DISTRO=$NAME
-        VER=$VERSION_ID
-    elif type lsb_release >/dev/null 2>&1; then
-        DISTRO=$(lsb_release -si)
-        VER=$(lsb_release -sr)
-    elif [ -f /etc/lsb-release ]; then
-        . /etc/lsb-release
-        DISTRO=$DISTRIB_ID
-        VER=$DISTRIB_RELEASE
-    elif [ -f /etc/debian_version ]; then
-        DISTRIO=Debian
-        VER=$(cat /etc/debian_version)
-    elif [ -f /etc/SuSe-release ]; then
-        ...
-    elif [ -f /etc/redhat-release ]; then
-        ...
-    else
-        DISTRO=$(uname -s)
-        VER=$(uname -r)
-    fi
-
-    TEMP8=`cat /etc/os-release | grep "BUILD_ID"`
-    DISTROVER="${TEMP8//"BUILD_ID="}"
-    
-    if test -d /bedrock; then
-        DISTRO='Bedrock'
-        TEMP8=`cat /bedrock/etc/os-release | grep "VERSION_ID"`
-        TEMP9="${TEMP8//"VERSION_ID=\""}"
-        DISTROVER="${TEMP9%"\""}"
-    fi
-    
     OS=`uname -o`
     KERNEL=`uname`
     
@@ -81,7 +118,7 @@ else
 
     printf -v KERNELVER '%.*s' 15 "$KERNELVER"
 
-    if (( KVLENGTH > 15 )); then
+    if (( KVLENGTH > 17 )); then
         KERNELVER=`echo $KERNELVER"..."`
     fi
     
@@ -121,9 +158,9 @@ else
     if ! [[ "$GPU" == '' ]]; then
         GPULENGTH=`expr "$GPU" : '.*'`
 
-        printf -v GPU '%.*s' 30 "$GPU"
+        printf -v GPU '%.*s' 50 "$GPU"
 
-        if (( GPULENGTH > 30 )); then
+        if (( GPULENGTH > 50 )); then
             GPU=`echo $GPU"..."`
         fi
 
@@ -168,79 +205,80 @@ else
     # aaand here are the distro logos!
     # MAKE SURE TO REPLACE SPACES WITH WHITESPACE ASCII CHARACTERS FOR IT WILL BREAK!!!
 
-    if [[ "$DISTRO" == 'NixOS' ]]; then
+    case $DISTRO in
+    'NixOS')
         DISTROCOLOUR=$LIBL
         ACCENTCOLOUR=$LICY
         LINE1='⠀⠀⠀⠸⣿⡄⠀⢻⣷⣠⣿⠇⠀⠀⠀ '
         LINE2='⠀⢀⣶⣶⣿⣿⣶⣶⡿⣿⡏⠀⣠⡀⠀ '
-        LINE3='⠀⠀⠀⢠⣶⠆   ⠹⣷⣴⣿⠃⠀ '
-        LINE4='⢾⣿⣿⣿⣏     ⣹⣿⣿⣿⡷ '
-        LINE5='⠀⢠⣿⠟⣿⣆   ⠰⠿⠃⠀⠀⠀ '
+        LINE3='⠀⠀⠀⢠⣶⠆⠀⠀⠀⠹⣷⣴⣿⠃⠀ '
+        LINE4='⢾⣿⣿⣿⣏⠀⠀⠀⠀⠀⣹⣿⣿⣿⡷ '
+        LINE5='⠀⢠⣿⠟⣿⣆⠀⠀⠀⠰⠿⠃⠀⠀⠀ '
         LINE6='⠀⠈⠋⠀⣸⣿⣿⠿⠿⣿⣿⠿⠟⠁⠀ '
         LINE7='⠀⠀⠀⢰⣿⠋⢿⣧⠀⠘⣿⡆⠀⠀⠀ '
         LINE8='                '
-        LINE9='                '
-    elif [[ "$DISTRO" == 'Debian GNU/Linux' ]]; then
+        EMPTY='                ';;
+    'Debian GNU/Linux')
         DISTROCOLOUR=$RED
         ACCENTCOLOUR=$LIGR
-        LINE1='⠀⠀⣠⣶⠿⠶⠶⣤⣄⠀ '
-        LINE2='⢀⡾⠋⠀⠀⠀⠀⠈⢻⡧ '
-        LINE3='⣾⠁⠀⠀⠌⠁⠈⠀⠈⡇ '
-        LINE4='⣏⠀⠀⢀⡄⠀⠀⠀⣰⠃ '
-        LINE5='⢹⡄⠀⠀⠙⠲⠒⠊⠁⠀ '
-        LINE6='⠀⢻⡀        '
-        LINE7=' ⠀⠙⠦⣀⠀⠀⠀⠀⠀ '
-        LINE8='           '
-        LINE9='           '
-    elif [[ "$DISTRO" == 'Arch Linux' ]]; then
+        LINE1='⠀⠀⣠⣶⠿⠶⠶⣤⣄⠀⠀'
+        LINE2='⢀⡾⠋⠀⠀⠀⠀⠈⢻⡧⠀'
+        LINE3='⣾⠁⠀⠀⠌⠁⠈⠀⠈⡇⠀'
+        LINE4='⣏⠀⠀⢀⡄⠀⠀⠀⣰⠃⠀'
+        LINE5='⢹⡄⠀⠀⠙⠲⠒⠊⠁⠀⠀'
+        LINE6='⠀⢻⡀⠀⠀⠀⠀⠀⠀⠀⠀'
+        LINE7='⠀⠀⠙⠦⣀⠀⠀⠀⠀⠀⠀'
+        LINE8='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
+        EMPTY='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀';;
+    'Arch Linux')
         DISTROCOLOUR=$CYAN
         ACCENTCOLOUR=$LICY
-        LINE1='           '
-        LINE2='⠀⠀⠀⠀⢰⣆⠀⠀⠀⠀ '
-        LINE3='⠀⠀⠀⢠⣿⣿⡄⠀⠀⠀ '
-        LINE4='⠀⠀⢠⣿⣿⣿⣿⡄⠀⠀ '
-        LINE5='⠀⣠⣿⣿⠁⠈⣿⣿⣆⠀ '
-        LINE6='⡰⠟⠋⠉⠀⠀⠉⠙⠻⢆ '
-        LINE7='           '
-        LINE8='           '
-        LINE9='           '
-    elif [[ "$DISTRO" == 'Gentoo' ]]; then
-        DISTROCOLOUR=$LIGR
-        ACCENTCOLOUR=$LIPR
-        LINE1='           '
-        LINE2='⠀⢠⣴⣶⣶⣦⣄⢀⠀⠀ '
-        LINE3='⢀⠿⣿⣯⣐⣆⣿⣷⣕⠄ '
-        LINE4='⠀⠉⣒⣽⣿⣿⣿⡿⢏⠔ '
-        LINE5='⠀⣾⣿⣿⣿⠿⣋⠔⠉⠀ '
-        LINE6='⠡⣝⣫⡭⠖⠋⠁⠀⠀⠀ '
-        LINE7='           '
-        LINE8='           '
-        LINE9='           '
-    elif [[ "$DISTRO" == 'EndeavourOS' ]]; then # my (plasmacotton) distro of choice
-        DISTROCOLOUR=$LIPR
-        ACCENTCOLOUR=$PRPL
-        LINE1='           '
-        LINE2='⠀⠀⠀⠀⢠⣾⣦⡀⠀⠀ '
-        LINE3='⠀⠀⢀⣴⣿⣿⣿⣿⣄⠀ '
-        LINE4='⢀⣴⣿⣿⣿⣿⣿⣿⣿⣆ '
-        LINE5='⠈⠽⠿⠿⠿⠿⠿⠿⠟⠋ '
+        LINE1='⠀⠀⠀⠀⢰⣆⠀⠀⠀⠀ '
+        LINE2='⠀⠀⠀⢠⣿⣿⡄⠀⠀⠀ '
+        LINE3='⠀⠀⢠⣿⣿⣿⣿⡄⠀⠀ '
+        LINE4='⠀⣠⣿⣿⠁⠈⣿⣿⣆⠀ '
+        LINE5='⡰⠟⠋⠉⠀⠀⠉⠙⠻⢆ '
         LINE6='           '
         LINE7='           '
         LINE8='           '
-        LINE9='           '
-    elif [[ "$DISTRO" == 'Bedrock' ]]; then
+        EMPTY='           ';;
+    'Gentoo')
+        DISTROCOLOUR=$LIGR
+        ACCENTCOLOUR=$LIPR
+        LINE1='⠀⢠⣴⣶⣶⣦⣄⢀⠀⠀ '
+        LINE2='⢀⠿⣿⣯⣐⣆⣿⣷⣕⠄ '
+        LINE3='⠀⠉⣒⣽⣿⣿⣿⡿⢏⠔ '
+        LINE4='⠀⣾⣿⣿⣿⠿⣋⠔⠉⠀ '
+        LINE5='⠡⣝⣫⡭⠖⠋⠁⠀⠀⠀ '
+        LINE6='           '
+        LINE7='           '
+        LINE8='           '
+        EMPTY='           ';;
+    'EndeavourOS') # my (plasmacotton) distro of choice
+        DISTROCOLOUR=$LIPR
+        ACCENTCOLOUR=$PRPL
+        LINE1='⠀⠀⠀⠀⢠⣾⣦⡀⠀⠀ '
+        LINE2='⠀⠀⢀⣴⣿⣿⣿⣿⣄⠀ '
+        LINE3='⢀⣴⣿⣿⣿⣿⣿⣿⣿⣆ '
+        LINE4='⠈⠽⠿⠿⠿⠿⠿⠿⠟⠋ '
+        LINE5='           '
+        LINE6='           '
+        LINE7='           '
+        LINE8='           '
+        EMPTY='           ';;
+    'Bedrock')
         DISTROCOLOUR=$LIGR
         ACCENTCOLOUR=$BLCK
-        LINE1='          '
-        LINE2='⣀⣀⠀       '
-        LINE3='⢧⠀⢱⡀      '
-        LINE4=' ⢦⠀⠈⠉⠉⠉⢦⠀ '
-        LINE5='  ⢆⠀⠐⠒⠀⢨⠃ '
-        LINE6='  ⠘⠦⠤⠤⠤⠃  '
+        LINE1='⣀⣀⠀       '
+        LINE2='⢧⠀⢱⡀      '
+        LINE3=' ⢦⠀⠈⠉⠉⠉⢦⠀ '
+        LINE4='  ⢆⠀⠐⠒⠀⢨⠃ '
+        LINE5='  ⠘⠦⠤⠤⠤⠃  '
+        LINE6='          '
         LINE7='          '
         LINE8='          '
-        LINE9='          '
-    elif [[ "$OS" == 'Android' ]]; then
+        EMPTY='          ';;
+    'Android')
         DISTROCOLOUR=$GREN
         ACCENTCOLOUR=$GREN
         LINE1='⠀⠀⠀⠀⢂⣀⣀⣀⡐⠀⠀⠀⠀ '
@@ -251,201 +289,332 @@ else
         LINE6='⠘⠛⢸⣿⣿⣿⣿⣿⣿⣿⡇⠛⠃ '
         LINE7='⠀⠀⠈⠉⣿⣿⠉⣿⣿⠉⠁⠀⠀ '
         LINE8='⠀⠀⠀⠀⠻⠟⠀⠻⠟⠀⠀⠀⠀ '
-        LINE9='              '
-    elif [[ "$DISTRO" == 'Ubuntu' ]]; then
+        EMPTY='              ';;
+    'Ubuntu')
         DISTROCOLOUR=$ORNG
         ACCENTCOLOUR=$YLOW
-        LINE1='           '
-        LINE2='⠀⠀⠀⠀⢀⣠⣄⢴⡶⠀⠀'
-        LINE3='⠀⠀⢀⣾⡆⠛⠛⠳⣶⡀⠀'
-        LINE4='⠀⢾⡷⣿⠀⠀⠀⠀⣉⡁⠀'
-        LINE5='⠀⠀⠈⢿⠇⣤⣤⡴⠿⠁⠀'
-        LINE6='⠀⠀⠀⠀⠈⠙⠋⠺⠷⠀⠀'
+        LINE1='⠀⠀⠀⠀⢀⣠⣄⢴⡶⠀⠀'
+        LINE2='⠀⠀⢀⣾⡆⠛⠛⠳⣶⡀⠀'
+        LINE3='⠀⢾⡷⣿⠀⠀⠀⠀⣉⡁⠀'
+        LINE4='⠀⠀⠈⢿⠇⣤⣤⡴⠿⠁⠀'
+        LINE5='⠀⠀⠀⠀⠈⠙⠋⠺⠷⠀⠀'
+        LINE6='           '
         LINE7='           '
         LINE8='           '
-        LINE9='           '
-    elif [[ "$DISTRO" == 'Fedora Linux' ]]; then
+        EMPTY='           ';;
+    'Fedora Linux')
         DISTROCOLOUR=$LIBL
-        ACCENTCOLOUR=$BLUE
-        LINE1='           '
-        LINE2='⠀⣠⣴⣾⣿⣿⣷⣦⣄⠀ '
-        LINE3='⣰⣿⣿⣿⡏⢡⣄⢹⣿⣆ '
-        LINE4='⣿⣿⠟⣛⡇⢘⣻⣿⣿⣿ '
-        LINE5='⣿⣇⠸⡿⠇⣼⣿⣿⣿⠏ '
-        LINE6='⢿⣿⣷⣶⣾⣿⡿⠟⠋⠀ '
+        ACCENTCOLOUR=$WHTE
+        LINE1='⠀⣠⣴⣾⣿⣿⣷⣦⣄⠀ '
+        LINE2='⣰⣿⣿⣿⡏⢡⣄⢹⣿⣆ '
+        LINE3='⣿⣿⠟⣛⡇⢘⣻⣿⣿⣿ '
+        LINE4='⣿⣇⠸⡿⠇⣼⣿⣿⣿⠏ '
+        LINE5='⢿⣿⣷⣶⣾⣿⡿⠟⠋⠀ '
+        LINE6='           '
         LINE7='           '
         LINE8='           '
-        LINE9='           '
-    elif [[ "$DISTRO" == 'KaOS' ]]; then # do people know this distro exists?
+        EMPTY='           ';;
+    'KaOS') # do people know this distro exists?
         DISTROCOLOUR=$LIBL
         ACCENTCOLOUR=$BLUE
-        LINE1='          '
-        LINE2='⠀⠀⢀⠀⠀⣀⣄⡀⠀⠀'
-        LINE3='⠀⢸⣿⢀⡾⠟⠋⠀⠀⠀'
-        LINE4='⠀⠘⣿⣾⣶⣶⣶⣤⡀⠀'
-        LINE5='⠀⠀⠘⠀⠘⡿⣎⣫⠇⠀'
-        LINE6='⠀⠀⠀⠀⠀⠀⠉⠁⠀⠀'
+        LINE1='⠀⠀⢀⠀⠀⣀⣄⡀⠀⠀'
+        LINE2='⠀⢸⣿⢀⡾⠟⠋⠀⠀⠀'
+        LINE3='⠀⠘⣿⣾⣶⣶⣶⣤⡀⠀'
+        LINE4='⠀⠀⠘⠀⠘⡿⣎⣫⠇⠀'
+        LINE5='⠀⠀⠀⠀⠀⠀⠉⠁⠀⠀'
+        LINE6='          '
         LINE7='          '
         LINE8='          '
-        LINE9='          '
-    elif [[ "$DISTRO" == 'Oreon' ]]; then
+        EMPTY='          ';;
+    'Oreon')
         DISTROCOLOUR=$WHTE
         ACCENTCOLOUR=$LIGN
-        LINE1='              '
-        LINE2='   ⣴⣶⣶⣶⣶⣶⣦⠀   '
-        LINE3='  ⣼⡿⠋   ⠙⢿⣧⠀  '
-        LINE4='⢀⣾⣿⠀⠀⠀⠀⠀⠀⠀⣿⣷⡀⠀'
-        LINE5=' ⢿⣿⠀⠀⠀⠀⠀⠀⠀⣿⡿⠁⠀'
-        LINE6='  ⢻⣷⣄   ⣠⣾⡟⠀  '
-        LINE7='   ⠻⠿⠿⠿⠿⠿⠟⠀   '
+        LINE1='   ⣴⣶⣶⣶⣶⣶⣦⠀   '
+        LINE2='  ⣼⡿⠋⠀⠀⠀⠙⢿⣧⠀  '
+        LINE3='⢀⣾⣿⠀⠀⠀⠀⠀⠀⠀⣿⣷⡀⠀'
+        LINE4=' ⢿⣿⠀⠀⠀⠀⠀⠀⠀⣿⡿⠁⠀'
+        LINE5='  ⢻⣷⣄⠀⠀⠀⣠⣾⡟⠀  '
+        LINE6='   ⠻⠿⠿⠿⠿⠿⠟⠀   '
+        LINE7='              '
         LINE8='              '
-        LINE9='              '
-    elif [[ "$DISTRO" == 'Void' ]]; then
+        EMPTY='              ';;
+    'Void')
         DISTROCOLOUR=$LIGN
         ACCENTCOLOUR=$WHTE
-        LINE1='          '
-        LINE2='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
-        LINE3='⠀⠀⠐⠟⠛⠻⣶⡄⠀⠀'
-        LINE4='⠀⣿⠀⢠⣶⡄⠈⣿⡄⠀'
-        LINE5='⠘⣿⡀⠘⠿⠃⠀⣿⠃⠀'
-        LINE6='⠀⠘⠿⣦⣤⣴⠄⠀⠀⠀'
-        LINE7='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
+        LINE1='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
+        LINE2='⠀⠀⠐⠟⠛⠻⣶⡄⠀⠀'
+        LINE3='⠀⣿⠀⢠⣶⡄⠈⣿⡄⠀'
+        LINE4='⠘⣿⡀⠘⠿⠃⠀⣿⠃⠀'
+        LINE5='⠀⠘⠿⣦⣤⣴⠄⠀⠀⠀'
+        LINE6='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
+        LINE7='          '
         LINE8='          '
-        LINE9='          '
-    elif [[ "$DISTRO" == 'Solus' ]]; then
+        EMPTY='          ';;
+    'Solus')
         DISTROCOLOUR=$LIGR
         ACCENTCOLOUR=$BLUE
-        LINE1='            '
-        LINE2='⠀⢀⣤⠖⡛⠛⠛⠶⣤⡀⠀ '
-        LINE3='⢠⠟⠀⣸⣷⡀⠀⠀⠈⢻⡄⠀'
-        LINE4='⡿⠀⣰⣿⣿⡇⣦⡠⣄⡀⣿⠀'
-        LINE5='⣷⠰⠿⠿⠿⡇⣿⠿⠜⡁⣿⠀'
-        LINE6='⠘⣦⠲⢶⣶⣶⣶⡾⢋⣼⠃⠀'
-        LINE7='⠀⠈⠛⠦⣬⣭⣤⠴⠛⠁⠀⠀'
+        LINE1='⠀⢀⣤⠖⡛⠛⠛⠶⣤⡀⠀ '
+        LINE2='⢠⠟⠀⣸⣷⡀⠀⠀⠈⢻⡄⠀'
+        LINE3='⡿⠀⣰⣿⣿⡇⣦⡠⣄⡀⣿⠀'
+        LINE4='⣷⠰⠿⠿⠿⡇⣿⠿⠜⡁⣿⠀'
+        LINE5='⠘⣦⠲⢶⣶⣶⣶⡾⢋⣼⠃⠀'
+        LINE6='⠀⠈⠛⠦⣬⣭⣤⠴⠛⠁⠀⠀'
+        LINE7='            '
         LINE8='            '
-        LINE9='            '
-    elif [[ "$DISTRO" == 'Red Hat Enterprise Linux' ]]; then
+        EMPTY='            ';;
+    'Red Hat Enterprise Linux')
         DISTROCOLOUR=$RED
         ACCENTCOLOUR=$LIRE
-        LINE1='           '
-        LINE2='           '
-        LINE3='⠀⠀⢠⣿⣶⣿⣶⣄⠀⠀ '
-        LINE4='⣠⣤⠘⢿⣿⣿⣿⣿⡀⠀ '
-        LINE5='⠻⣿⣷⣤⣈⣉⣉⣉⣼⣦ '
-        LINE6='⠀⠈⠙⠻⠿⢿⣿⣿⡿⠟ '
+        LINE1='⠀⠀⢠⣿⣶⣿⣶⣄⠀⠀ '
+        LINE2='⣠⣤⠘⢿⣿⣿⣿⣿⡀⠀ '
+        LINE3='⠻⣿⣷⣤⣈⣉⣉⣉⣼⣦ '
+        LINE4='⠀⠈⠙⠻⠿⢿⣿⣿⡿⠟ '
+        LINE5='           '
+        LINE6='           '
         LINE7='           '
         LINE8='           '
-        LINE9='           '
-    elif [[ "$DISTRO" == "openSUSE" ]]; then
+        EMPTY='           ';;
+    'openSUSE')
         DISTROCOLOUR=$GREN
         ACCENTCOLOUR=$LIGN
-        LINE1='           '
-        LINE2='           '
-        LINE3='⠀⣠⣶⣿⣿⣿⣷⣾⣶⣦ '
-        LINE4='⡼⣻⣛⢿⡿⢿⣿⠿⠾⠙ '
-        LINE5='⠳⣕⡼⠈⠀⠀⠙⠀⠀⠀ '
-        LINE6=' openSUSE  '
+        LINE1='⠀⣠⣶⣿⣿⣿⣷⣾⣶⣦ '
+        LINE2='⡼⣻⣛⢿⡿⢿⣿⠿⠾⠙ '
+        LINE3='⠳⣕⡼⠈⠀⠀⠙⠀⠀⠀ '
+        LINE4' openSUSE  '
+        LINE5'           '
+        LINE6'           '
         LINE7='           '
         LINE8='           '
-        LINE9='           '
-     elif [[ "$DISTRO" == 'FreeBSD' ]]; then
+        EMPTY='           ';;
+    'FreeBSD')
         DISTROCOLOUR=$RED
         ACCENTCOLOUR=$BLCK
-        LINE1='             '
-        LINE2='⢿⣷⢆⣤⣶⣶⣶⡶⣦⣴⣾⡿ '
-        LINE3='⠈⣵⣿⣿⣿⣿⣿⣷⣿⣿⡿⡁ '
-        LINE4='⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿ '
-        LINE5='⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃ '
-        LINE6='⠀⠀⠙⠻⢿⣿⣿⣿⠿⠋⠁⠀ '
+        LINE1='⢿⣷⢆⣤⣶⣶⣶⡶⣦⣴⣾⡿ '
+        LINE2='⠈⣵⣿⣿⣿⣿⣿⣷⣿⣿⡿⡁ '
+        LINE3='⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿ '
+        LINE4='⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃ '
+        LINE4='⠀⠀⠙⠻⢿⣿⣿⣿⠿⠋⠁⠀ '
+        LINE6='             '
         LINE7='             '
         LINE8='             '
-        LINE9='             '
-     elif [[ "$DISTRO" == 'Chimera' ]]; then
+        EMPTY='             ';;
+    'Chimera')
         DISTROCOLOUR=$LIRE
         ACCENTCOLOUR=$LIPR
-        LINE1='             '
-        LINE2='⢠⣶⣶⣶⣶⠀⣶    ⠀ '
-        LINE3='⢸⣿⣿⡿⢋⣀⣿    ⠀ '
-        LINE4='⠸⠿⠏⢰⡟  ⢠⣤⣤⣤⡄ '
-        LINE5='⢰⣶⣆⠸⣧⣀⣀⣼⠇⣠⣤⡄ '
-        LINE6='⢸⣿⣿⣷⣌⡉⢉⣡⣾⣿⣿⡇ '
-        LINE7='⠸⠿⠿⠿⠿⠇⠸⠿⠿⠿⠿⠇ '
+        LINE1='⢠⣶⣶⣶⣶⠀⣶    ⠀ '
+        LINE2='⢸⣿⣿⡿⢋⣀⣿    ⠀ '
+        LINE3='⠸⠿⠏⢰⡟  ⢠⣤⣤⣤⡄ '
+        LINE4='⢰⣶⣆⠸⣧⣀⣀⣼⠇⣠⣤⡄ '
+        LINE5='⢸⣿⣿⣷⣌⡉⢉⣡⣾⣿⣿⡇ '
+        LINE6='⠸⠿⠿⠿⠿⠇⠸⠿⠿⠿⠿⠇ '
+        LINE7='             '
         LINE8='             '
-        LINE9='             '
-     elif [[ "$DISTRO" == 'Slackware' ]]; then
-        DISTROCOLOUR=$LIBL
-        ACCENTCOLOUR=$BLUE
-        LINE1='            '
-        LINE2='⠀⢀⡤⣖⣿⣭⣿⣲⢤⡀⠀ '
-        LINE3='⢠⢯⣾⠋⣴⣶⣦⣙⣷⡽⡄ '
-        LINE4='⡞⣿⣿⢷⣦⣬⣍⠛⣿⣿⢳ '
-        LINE5='⢧⣿⣿⣤⣙⣛⣋⣤⣿⣿⡼ '
-        LINE6='⠘⣞⢶⣶⣶⣶⣶⣶⡶⣳⠃ '
-        LINE7='⠀⠈⠓⠯⣿⣛⣿⠽⠚⠁⠀ '
+        EMPTY='             ';;
+    'Slackware')
+        DISTROCOLOUR=$BLUE
+        ACCENTCOLOUR=$BLCK
+        LINE1='⠀⢀⡤⣖⣿⣭⣿⣲⢤⡀⠀ '
+        LINE2='⢠⢯⣾⠋⣴⣶⣦⣙⣷⡽⡄ '
+        LINE3='⡞⣿⣿⢷⣦⣬⣍⠛⣿⣿⢳ '
+        LINE4='⢧⣿⢸⣤⣙⣛⣋⣤⣿⣿⡼ '
+        LINE5='⠘⣞⢶⣶⣶⣶⣶⣶⡶⣳⠃ '
+        LINE6='⠀⠈⠓⠯⣿⣛⣿⠽⠚⠁⠀ '
+        LINE7='            '
         LINE8='            '
-        LINE9='            '
-     elif [[ "$DISTRO" == 'SteamOS' ]]; then
+        EMPTY='            ';;
+    'SteamOS')
         DISTROCOLOUR=$LIBL
         ACCENTCOLOUR=$LIPR
-        LINE1='          '
-        LINE2='⠀⠀⢸⣿⣷⣦⣄⠀⠀ '
-        LINE3='⠀⣠⣤⣬⡙⢻⣿⣦⠀ '
-        LINE4='⣾⣿⣿⣿⣿⡆⢻⣿⡆ '
-        LINE5='⢻⣿⣿⣿⣿⠇⣾⣿⠇ '
-        LINE6='⠀⠉⢛⣋⣡⣾⣿⠏⠀ '
-        LINE7='⠀⠀⢸⡿⠿⠛⠁⠀⠀ '
+        LINE1='⠀⠀⢸⣿⣷⣦⣄⠀⠀ '
+        LINE2='⠀⣠⣤⣬⡙⢻⣿⣦⠀ '
+        LINE3='⣾⣿⣿⣿⣿⡆⢻⣿⡆ '
+        LINE4='⢻⣿⣿⣿⣿⠇⣾⣿⠇ '
+        LINE5='⠀⠉⢛⣋⣡⣾⣿⠏⠀ '
+        LINE6='⠀⠀⢸⡿⠿⠛⠁⠀⠀ '
+        LINE7='          '
         LINE8='          '
-        LINE9='          '
-     elif [[ "$DISTRO" == 'Guix System' ]]; then
+        EMPTY='          ';;
+    'Guix System')
         DISTROCOLOUR=$YLOW
-        ACCENTCOLOUR=$ORNG
-        LINE1='                '        
-        LINE2='⠰⣄⣀⣀⣀⠀⠀⠀⠀⠀⣀⣀⣀⣠⠆ '
-        LINE3='⠀⠈⠛⠛⢻⣷⡀⠀⠀⣾⡟⠛⠛⠁⠀ '
-        LINE4='⠀⠀⠀⠀⠀⢿⣧⠀⣼⡿⠀⠀⠀⠀⠀ '
-        LINE5='⠀⠀⠀⠀⠀⠘⣿⣶⣿⠃⠀⠀⠀⠀⠀ '
-        LINE6='⠀⠀⠀⠀⠀⠀⠹⠿⠏⠀⠀⠀⠀⠀⠀ '
+        ACCENTCOLOUR=$ORNG      
+        LINE1='⠰⣄⣀⣀⣀⠀⠀⠀⠀⠀⣀⣀⣀⣠⠆ '
+        LINE2='⠀⠈⠛⠛⢻⣷⡀⠀⠀⣾⡟⠛⠛⠁⠀ '
+        LINE3='⠀⠀⠀⠀⠀⢿⣧⠀⣼⡿⠀⠀⠀⠀⠀ '
+        LINE4='⠀⠀⠀⠀⠀⠘⣿⣶⣿⠃⠀⠀⠀⠀⠀ '
+        LINE5='⠀⠀⠀⠀⠀⠀⠹⠿⠏⠀⠀⠀⠀⠀⠀ '
+        LINE6='                '  
         LINE7='                '
         LINE8='                '
-        LINE9='                '
-     elif [[ "$DISTRO" == 'Manjaro Linux' ]]; then
+        EMPTY='                ';;
+    'Manjaro Linux')
         DISTROCOLOUR=$LIGN
         ACCENTCOLOUR=$GREN
-        LINE1='              '        
-        LINE2='⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿⣿ '
-        LINE3='⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿⣿ '
-        LINE4='⣿⣿⣿⡇⢠⣤⣤⣤⡄⢸⣿⣿⣿ '
-        LINE5='⣿⣿⣿⡇⢸⣿⣿⣿⡇⢸⣿⣿⣿ '
-        LINE6='⣿⣿⣿⡇⢸⣿⣿⣿⡇⢸⣿⣿⣿ '
-        LINE7='⣿⣿⣿⡇⢸⣿⣿⣿⡇⢸⣿⣿⣿ '
-        LINE8='⣿⣿⣿⡇⢸⣿⣿⣿⡇⢸⣿⣿⣿ '
-        LINE9='              '
-     elif [[ "$DISTRO" == 'Alpine Linux' ]]; then
-        DISTROCOLOUR=$BLUE
-        ACCENTCOLOUR=$LIBL
-        LINE1='           '        
-        LINE2='⠀⠀⣴⣶⣶⣶⣶⣦⠀⠀ '
-        LINE3='⢀⣼⣿⡿⠻⡿⢿⣿⣧⡀ '
-        LINE4='⢾⡿⢋⢴⣦⡀⠢⡙⢿⡷ '
-        LINE5='⠈⢻⣿⣿⣿⣿⣿⣿⡟⠁ '
-        LINE6='⠀⠀⠻⠿⠿⠿⠿⠟⠀⠀ '
+        LINE1='⣿⣿⣿⣿⣿⣿⡇⣿⣿⣿ '        
+        LINE2='⣿⣿⣿⢛⣛⣛⡃⣿⣿⣿ '
+        LINE3='⣿⣿⣿⢸⣿⣿⡇⣿⣿⣿ '
+        LINE4='⣿⣿⣿⢸⣿⣿⡇⣿⣿⣿ '
+        LINE5='⣿⣿⣿⢸⣿⣿⡇⣿⣿⣿ '
+        LINE6='           '
         LINE7='           '
         LINE8='           '
-        LINE9='           '
-     elif [[ "$DISTRO" == 'TinyCore' ]]; then
+        EMPTY='           ';;
+    'Alpine Linux')
+        DISTROCOLOUR=$BLUE
+        ACCENTCOLOUR=$LIBL       
+        LINE1='⠀⠀⣴⣶⣶⣶⣶⣦⠀⠀ '
+        LINE2='⢀⣼⣿⡿⠻⡿⢿⣿⣧⡀ '
+        LINE3='⢾⡿⢋⢴⣦⡀⠢⡙⢿⡷ '
+        LINE4='⠈⢻⣿⣿⣿⣿⣿⣿⡟⠁ '
+        LINE5='⠀⠀⠻⠿⠿⠿⠿⠟⠀⠀ '
+        LINE6='           ' 
+        LINE7='           '
+        LINE8='           '
+        EMPTY='           ';;
+    'TinyCore')
         DISTROCOLOUR=$BLCK
-        ACCENTCOLOUR=$LIGR
-        LINE1='                    '        
-        LINE2='⠀⠀⠀⣠⣴⢶⣤⣾⠿⣷⣄⣤⣤⣤⣤⡶⣦⡀⠀⠀'
-        LINE3='⠀⠀⠀⣿⣇⣀⣿⣧⡞⣹⣿⣿⡇⠘⣿⣛⣛⡃⠀⠀'
-        LINE4='⠀⠀⠀⠈⠉⠉⠉⠛⠛⠛⠁⠉⠁⠀⠈⠉⠉⠁⠀⠀'
+        ACCENTCOLOUR=$LIGR      
+        LINE1='⠀⠀⠀⣠⣴⢶⣤⣾⠿⣷⣄⣤⣤⣤⣤⡶⣦⡀⠀⠀'
+        LINE2='⠀⠀⠀⣿⣇⣀⣿⣧⡞⣹⣿⣿⡇⠘⣿⣛⣛⡃⠀⠀'
+        LINE3='⠀⠀⠀⠈⠉⠉⠉⠛⠛⠛⠁⠉⠁⠀⠈⠉⠉⠁⠀⠀'
+        LINE4='                    '
         LINE5='                    '
-        LINE6='                    '
+        LINE6='                    '  
         LINE7='                    '
         LINE8='                    '
-        LINE9='                    '
-
-    else
+        EMPTY='                    ';;
+    'Gobolinux')
+        DISTROCOLOUR=$CYAN
+        ACCENTCOLOUR=$LIPR      
+        LINE1='⠀⠀⣠⠒⠉⢉⢗⡄⠀⠀ '
+        LINE2='⠀⡰⠁⠀⠀⢸⠪⠼⠤⡀ '
+        LINE3='⢠⢣⠂⠀⡄⠀⢻⠉⢫⠀ '
+        LINE4='⢸⢸⠀⠀⠰⠀⠀⠀⢸⢣ '
+        LINE5='⡇⢸⠒⡲⠃⠀⠀⠀⢸⠞ '
+        LINE6='⡇⢸⠒⡲⠃⠀⠀⠀⢸⠞ '  
+        LINE7='⠀⠀⠘⢄⣀⡼⠒⠃⠀⠀ '
+        LINE8='           '
+        EMPTY='           ';;
+    'Artix Linux')
+        DISTROCOLOUR=$LIBL
+        ACCENTCOLOUR=$LICY      
+        LINE1='⠀⠀⠀⠀⢰⡆⠀⠀⠀⠀ '
+        LINE2='⠀⠀⠀⢠⣿⣿⡄⠀⠀⠀ '
+        LINE3='⠀⠀⢀⡉⠻⢿⣿⡀⠀⠀ '
+        LINE4='⠀⢀⣾⣿⣷⣦⣌⡓⠀⠀ '
+        LINE5='⠀⣼⣿⣿⡿⠟⠛⣩⣤⠀ '
+        LINE6='⡸⠟⠋⠁⠀⠀⠉⠛⠿⢇ '  
+        LINE7='           '
+        LINE8='           '
+        EMPTY='           ';;
+    'Fatdog64 Linux')
+        DISTROCOLOUR=$WHTE
+        ACCENTCOLOUR=$YLOW     
+        LINE1='FATDOG64 '
+        LINE2='         '
+        LINE3='         '
+        LINE4='         '
+        LINE5='         '
+        LINE6='         '  
+        LINE7='         '
+        LINE8='         '
+        EMPTY='         ';;
+    'Linux Mint')
+        DISTROCOLOUR=$LIGN
+        ACCENTCOLOUR=$WHTE     
+        LINE1='⠀⠀⠀⡠⢒⣭⣭⣭⡒⢄⠀⠀⠀ '
+        LINE2='⠀⠀⡎⣼⢹⡿⠛⠟⠻⣧⢳⠀⠀ '
+        LINE3='⠀⢸⢸⣿⢸⡇⣿⢸⡇⣿⡇⡇⠀ '
+        LINE4='⠀⠘⡌⢿⣈⠓⠛⠚⣁⡿⢡⠃⠀ '
+        LINE5='⠀⠀⠘⢮⡛⠿⠿⠿⢛⡵⠃⠀⠀ '
+        LINE6='   ⠀⠈⠉⠉⠉⠁     '  
+        LINE7='              '
+        LINE8='              '
+        EMPTY='              ';;
+    'Deepin')
+        DISTROCOLOUR=$LIBL
+        ACCENTCOLOUR=$WHTE     
+        LINE1='⠀⢀⣠⣴⠆⠐⣲⣄⡀⠀ '
+        LINE2='⢠⠚⣿⡟⢠⡎⣍⠀⠐⡄ '
+        LINE3='⢎⠀⠘⢷⣑⣣⢃⡇⠀⡱ '
+        LINE4='⠘⢤⣤⣤⣬⣴⡾⠃⠠⠃ '
+        LINE5='⠀⠈⠙⠿⠟⠫⠤⠂⠁⠀ '
+        LINE6='           '  
+        LINE7='           '
+        LINE8='           '
+        EMPTY='           ';;
+    'NuTyX')
+        DISTROCOLOUR=$LIBL
+        ACCENTCOLOUR=$BLUE 
+        LINE1='NuTyX '
+        LINE2='      '
+        LINE3='      '
+        LINE4='      '
+        LINE5='      '
+        LINE6='      '  
+        LINE7='      '
+        LINE8='      '
+        EMPTY='      ';;
+    'Fedora Linux Asahi Remix')
+        DISTROCOLOUR=$LIRE
+        ACCENTCOLOUR=$BLCK 
+        LINE1='⠀⠀⠀⠀⠀⠀⢴⠴⠀⠀⠀⠀⠀⠀ '
+        LINE2='⠀⠀⠀⠀⣠⣶⣾⣷⣶⣄⠀⠀⠀⠀ '
+        LINE3='⠀⠀⠀⣴⣿⣿⣿⠙⣿⣿⣦⠀⠀ ⠀'
+        LINE4='⠀⠀⢼⣿⣿⣿⣿⠀⡌⢻⣿⡧⠀⠀ '
+        LINE5='⠀⠀⠀⠉⠻⣿⣿⠀⣴⠆⠉⠀⠀⠀ '
+        LINE6='⠀⠀⠀⠀⠀⠀⠙⠊⠀⠀⠀⠀⠀⠀ '  
+        LINE7='               '
+        LINE8='               '
+        EMPTY='               ';;
+    'ArcoLinux')
+        DISTROCOLOUR=$LIBL
+        ACCENTCOLOUR=$LIPR 
+        LINE1='⠀⠀⠀⠀⣀⠀⠀⠀⠀ '
+        LINE2='⠀⠀⠀⣰⣿⣆⠀⠀⠀ '
+        LINE3='⠀⠀⣰⡿⠙⣿⡆⠀⠀⠀'
+        LINE4='⠀⢰⡿⠁⠠⢼⣿⡄⠀ '
+        LINE5='⠀⠉⠁⠀⠀⠀⠉⠉⠀ '
+        LINE6='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'  
+        LINE7='          '
+        LINE8='          '
+        EMPTY='          ';;
+    'Archcraft')
+        DISTROCOLOUR=$LICY
+        ACCENTCOLOUR=$LIGN 
+        LINE1='⠀⠀⠀⠀⢰⣆⠀⠀⠀⠀ '
+        LINE2='⠀⠀⠀⢠⣻⣿⡄⠀⠀⠀ '
+        LINE3='⠀⠀⢠⣿⡿⢿⣿⡄⠀⠀⠀'
+        LINE4='⠀⣠⣿⡃⢠⡄⠘⣿⣆⠀ '
+        LINE5='⡰⠿⠛⠁⠀⠀⠈⠛⠿⢆ '
+        LINE6='⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ '
+        LINE7='           '
+        LINE8='           '
+        EMPTY='           ';;
+    'Archcraft')
+        DISTROCOLOUR=$CYAN
+        ACCENTCOLOUR=$BLUE 
+        LINE1='⠀⠀⠀⠀⠀⢰⡀⠀⠀⠀⠀⠀'
+        LINE2='⠀⠀⠀⠀⢠⣿⠷⠀⠀⠀⠀⠀'
+        LINE3='⠀⠀⠀⢠⣿⣿⢰⣧⠀⠀⠀⠀'
+        LINE4='⠀⠀⢠⣿⣿⣏⣾⣿⣷⡀⠀⠀'
+        LINE5='⠀⣠⣿⡿⠿⠉⠹⠿⢿⣷⡀⠀'
+        LINE6='⠐⠋⠁⠀⠀⠀⠀⠀⠀⠈⠑⠀'
+        LINE7='            '
+        LINE8='            '
+        EMPTY='            ';;
+    'MidOS')
+        DISTROCOLOUR=$BLCK
+        ACCENTCOLOUR=$WHTE 
+        LINE1='⠀⢀⣴⣾⣿⣿⣷⣦⡀⠀  '
+        LINE2='⣰⣿⣿⣿⡏⢹⣿⣿⣿⣆  '
+        LINE3='⣿⣛⣍⠲⡇⢸⠖⣩⣛⣿  '
+        LINE4='⠹⣿⣿⣿⣇⣸⣿⣿⣿⠏  '
+        LINE5='⠀⠈⠻⢿⣿⣿⡿⠟⠁⠀  '
+        LINE6='            '
+        LINE7='            '
+        LINE8='            '
+        EMPTY='            ';;
+    *)
         echo "Distro logo not found! Contact @plasmacotton on Discord, or email rivulet.rw@proton.me to help fix this problem!"
         DISTROCOLOUR=$LIGR
         ACCENTCOLOUR=$RED
@@ -457,13 +626,13 @@ else
         LINE6='⠀⠠⢀⠂⢤⡈⠀⠀⢀⠸⠿⡋⠀'
         LINE7='⠀⠌⡠⠨⠨⣁⣀⣠⣴⠨⢐⢀⠂'
         LINE8='⠀⠐⠈⠌⠒⠉⠀⠂⠉⠊⠊⠀⠀'
-        LINE9='             '
-    fi
+        EMPTY='             '
+    esac
 
     # THIS IS THE PART IT PRINTS OUT!!! THIS IS WHAT YOU WANT TO EDIT IF YOU WANT TO CUSTOMIZE IT!!
 
     echo
-    echo -e ${DISTROCOLOUR}$LINE9${NC} ${DISTROCOLOUR}$USERNAME${NC}"@"${ACCENTCOLOUR}$HOST
+    echo -e ${DISTROCOLOUR}$EMPTY${NC} ${DISTROCOLOUR}$USERNAME${NC}"@"${ACCENTCOLOUR}$HOST
     echo -e ${DISTROCOLOUR}$LINE1${NC} "┌ "${ACCENTCOLOUR}"os"
     echo -e ${DISTROCOLOUR}$LINE2${NC} "│type ►" ${DISTROCOLOUR} $OS ${ACCENTCOLOUR}"("$DISTRO", version "$DISTROVER")"
     echo -e ${DISTROCOLOUR}$LINE3${NC} "│krnl ►" ${DISTROCOLOUR} $KERNEL", version" ${ACCENTCOLOUR}$KERNELVER
@@ -472,7 +641,7 @@ else
     echo -e ${DISTROCOLOUR}$LINE6${NC} "│ram ►" ${DISTROCOLOUR} $RAMUSED"/"$RAM"MB" ${ACCENTCOLOUR}"("$SWAPUSED"/"$SWAP"MB Swap)"
     echo -e ${DISTROCOLOUR}$LINE7${NC} "│cpu ►" ${DISTROCOLOUR} $CPU 
     echo -e ${DISTROCOLOUR}$LINE8${NC} "│gpu ►" ${DISTROCOLOUR} $GPU 
-    echo -e ${DISTROCOLOUR}$LINE9${NC}
-    echo -e ${DISTROCOLOUR}$LINE9${NC} "-"${ACCENTCOLOUR} "\e[3m$MSG\e[0m" ${NC}
+    echo -e ${DISTROCOLOUR}$EMPTY${NC}
+    echo -e ${DISTROCOLOUR}$EMPTY${NC} "-"${ACCENTCOLOUR} "\e[3m$MSG\e[0m" ${NC}
     echo
 fi
