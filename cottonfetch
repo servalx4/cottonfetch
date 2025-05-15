@@ -3,7 +3,7 @@
 if [[ $* == *--help ]]; then
     echo
     echo -e "\e[1mcottonfetch v1.7\e[0m"
-    echo "created by @plasmacotton"
+    echo "created by @sunlithorizon"
     echo
     echo "usage:"
     echo "cottonfetch | the fetch"
@@ -39,6 +39,7 @@ else
         'Linux Mint') DISTRO=$VERSION_ID ;;
         'Deepin') DISTRO=$VERSION_ID ;;
         'Zorin OS') DISTROVER=$VERSION ;;
+        'Gentoo') DISTROVER=$VERSION_ID ;;
         
         *) TEMP8=`cat /etc/os-release | grep "BUILD_ID"`
         DISTROVER="${TEMP8//"BUILD_ID="}" ;;
@@ -267,7 +268,7 @@ else
         LINE7='           '
         LINE8='           '
         EMPTY='           ';;
-    'EndeavourOS') # my (plasmacotton) distro of choice
+    'EndeavourOS') 
         DISTROCOLOUR=$LIPR
         ACCENTCOLOUR=$PRPL
         LINE1='⠀⠀⠀⠀⢠⣾⣦⡀⠀⠀ '
@@ -640,7 +641,7 @@ else
         LINE8='           '
         EMPTY='           ';;
     *)
-        echo "Distro logo not found! Contact @plasmacotton on Discord, or email rivulet.rw@proton.me to help fix this problem!"
+        echo "Distro logo not found! Contact @sunlithorizon on Discord, or email rivulet.rw@proton.me to help fix this problem!"
         DISTROCOLOUR=$LIGR
         ACCENTCOLOUR=$WHTE
         LINE1='     ⣶⣿⣿⣦⠀⠀⠀⠀'
