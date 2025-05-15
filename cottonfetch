@@ -604,7 +604,7 @@ else
         LINE7='           '
         LINE8='           '
         EMPTY='           ';;
-    'Archcraft')
+    'Archbang')
         DISTROCOLOUR=$CYAN
         ACCENTCOLOUR=$BLUE 
         LINE1='⠀⠀⠀⠀⠀⢰⡀⠀⠀⠀⠀⠀'
