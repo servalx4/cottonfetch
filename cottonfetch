@@ -13,7 +13,7 @@ if [[ $* == *--help ]]; then
     echo 
     echo "please do note that this should be in a \$PATH. if it isn't, it is reccomended to:"
     echo
-    echo "run \"sudo/doas/rar mv cottonfetch (YOUR \$PATH)"
+    echo "run \"sudo/doas mv cottonfetch (YOUR \$PATH)"
     echo "and then \"chmod +x (path to cottonfetch)"
     echo
     echo "thank you for using cottonfetch <3"
