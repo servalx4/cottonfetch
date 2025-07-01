@@ -19,7 +19,7 @@ if [[ $* == *--help ]]; then
     echo "thank you for using cottonfetch <3"
     echo
     echo "shoutout to Hikari on discord for helping me fix fonts, without them cottonfetch would not be possible anymore!"
-    echo "shoutout to ImmaculateKatz (github) for helping me with a LOT of distro specific stuff"
+    echo "shoutout to ImmaculateKatz (github) for helping me with a LOT of distro specific stuff!"
     echo
 
 else
