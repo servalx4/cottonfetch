@@ -40,6 +40,7 @@ else
         'Deepin') DISTRO=$VERSION_ID ;;
         'Zorin OS') DISTROVER=$VERSION ;;
         'Gentoo') DISTROVER=$VERSION_ID ;;
+        'Alpine Linux') DISTROVER=$VERSION_ID ;;
         
         *) TEMP8=`cat /etc/os-release | grep "BUILD_ID"`
         DISTROVER="${TEMP8//"BUILD_ID="}" ;;
