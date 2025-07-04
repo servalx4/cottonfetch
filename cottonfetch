@@ -637,10 +637,10 @@ else
         LINE3='⢾⣿⡿⠛⠁⣀⣴⣿⣿⡷ '
         LINE4='⠈⠋⠀⠀⠚⠛⠛⠛⠛⠁ '
         LINE5='⠀⠀⢶⣶⣶⣶⣶⡶⠀⠀ '
-        LINE6='             '
-        LINE7='             '
-        LINE8='             '
-        EMPTY='             ';;
+        LINE6='           '
+        LINE7='           '
+        LINE8='           '
+        EMPTY='           ';;
     'CachyOS')
         DISTROCOLOUR=$CYAN
         ACCENTCOLOUR=$LIGN
@@ -649,10 +649,10 @@ else
         LINE3='⢾⣿⣇⠀⠀⠀⠀⠈⢀⣄'
         LINE4='⠀⢻⣿⣦⣤⣤⣤⡤⠀⠀'
         LINE5='⠀⠀⠛⠛⠛⠛⠛⠁⠀⠀'
-        LINE6='            '
-        LINE7='            '
-        LINE8='            '
-        EMPTY='            ';;
+        LINE6='          '
+        LINE7='          '
+        LINE8='          '
+        EMPTY='          ';;
     *)
         echo "Distro logo not found! Contact @sunlithorizon on Discord, or email rivulet.rw@proton.me to help fix this problem!"
         DISTROCOLOUR=$LIGR
