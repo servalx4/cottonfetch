@@ -569,7 +569,7 @@ else
         LINE7='      '
         LINE8='      '
         EMPTY='      ';;
-    'Fedora Linux Asahi Remix')
+    *'Asahi'*)
         DISTROCOLOUR=$LIRE
         ACCENTCOLOUR=$BLCK 
         LINE1='⠀⠀⠀⠀⠀⠀⢴⠴⠀⠀⠀⠀⠀⠀ '
@@ -641,7 +641,7 @@ else
         LINE7='           '
         LINE8='           '
         EMPTY='           ';;
-    'CachyOS')
+    'CachyOS'*)
         DISTROCOLOUR=$CYAN
         ACCENTCOLOUR=$LIGN
         LINE1='⠀⠀⣤⣤⣤⣤⡤⠀⡀⠀'
