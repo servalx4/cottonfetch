@@ -213,13 +213,13 @@ else
     'NixOS')
         DISTROCOLOUR=$LIBL
         ACCENTCOLOUR=$LICY
-        LINE1='⠀⠀⠀⠸⣿⡄⠀⢻⣷⣠⣿⠇⠀⠀⠀ '
-        LINE2='⠀⢀⣶⣶⣿⣿⣶⣶⡿⣿⡏⠀⣠⡀⠀ '
-        LINE3='⠀⠀⠀⢠⣶⠆⠀⠀⠀⠹⣷⣴⣿⠃⠀ '
-        LINE4='⢾⣿⣿⣿⣏⠀⠀⠀⠀⠀⣹⣿⣿⣿⡷ '
-        LINE5='⠀⢠⣿⠟⣿⣆⠀⠀⠀⠰⠿⠃⠀⠀⠀ '
-        LINE6='⠀⠈⠋⠀⣸⣿⣿⠿⠿⣿⣿⠿⠟⠁⠀ '
-        LINE7='⠀⠀⠀⢰⣿⠋⢿⣧⠀⠘⣿⡆⠀⠀⠀ '
+        LINE1='⠀⠀⠀⠸⣿⡄⠀⢻⣷⣠⣿⠇⠀⠀⠀⠀'
+        LINE2='⠀⢀⣶⣶⣿⣿⣶⣶⡿⣿⡏⠀⣠⡀⠀⠀'
+        LINE3='⠀⠀⠀⢠⣶⠆⠀⠀⠀⠹⣷⣴⣿⠃⠀⠀'
+        LINE4='⢾⣿⣿⣿⣏⠀⠀⠀⠀⠀⣹⣿⣿⣿⡷⠀'
+        LINE5='⠀⢠⣿⠟⣿⣆⠀⠀⠀⠰⠿⠃⠀⠀⠀⠀'
+        LINE6='⠀⠈⠋⠀⣸⣿⣿⠿⠿⣿⣿⠿⠟⠁⠀⠀'
+        LINE7='⠀⠀⠀⢰⣿⠋⢿⣧⠀⠘⣿⡆⠀⠀⠀⠀'
         LINE8='                '
         EMPTY='                ';;
     'Debian GNU/Linux')
@@ -237,11 +237,11 @@ else
     'Arch Linux')
         DISTROCOLOUR=$CYAN
         ACCENTCOLOUR=$LICY
-        LINE1='⠀⠀⠀⠀⢰⣆⠀⠀⠀⠀ '
-        LINE2='⠀⠀⠀⢠⣿⣿⡄⠀⠀⠀ '
-        LINE3='⠀⠀⢠⣿⣿⣿⣿⡄⠀⠀ '
-        LINE4='⠀⣠⣿⣿⠁⠈⣿⣿⣆⠀ '
-        LINE5='⡰⠟⠋⠉⠀⠀⠉⠙⠻⢆ '
+        LINE1='⠀⠀⠀⠀⢰⣆⠀⠀⠀⠀⠀'
+        LINE2='⠀⠀⠀⢠⣿⣿⡄⠀⠀⠀⠀'
+        LINE3='⠀⠀⢠⣿⣿⣿⣿⡄⠀⠀⠀'
+        LINE4='⠀⣠⣿⣿⠁⠈⣿⣿⣆⠀⠀'
+        LINE5='⡰⠟⠋⠉⠀⠀⠉⠙⠻⢆⠀'
         LINE6='           '
         LINE7='           '
         LINE8='           '
@@ -249,11 +249,11 @@ else
     'Gentoo')
         DISTROCOLOUR=$LIGR
         ACCENTCOLOUR=$LIPR
-        LINE1='⠀⢠⣴⣶⣶⣦⣄⢀⠀⠀ '
-        LINE2='⢀⠿⣿⣯⣐⣆⣿⣷⣕⠄ '
-        LINE3='⠀⠉⣒⣽⣿⣿⣿⡿⢏⠔ '
-        LINE4='⠀⣾⣿⣿⣿⠿⣋⠔⠉⠀ '
-        LINE5='⠡⣝⣫⡭⠖⠋⠁⠀⠀⠀ '
+        LINE1='⠀⢠⣴⣶⣶⣦⣄⢀⠀⠀⠀'
+        LINE2='⢀⠿⣿⣯⣐⣆⣿⣷⣕⠄⠀'
+        LINE3='⠀⠉⣒⣽⣿⣿⣿⡿⢏⠔⠀'
+        LINE4='⠀⣾⣿⣿⣿⠿⣋⠔⠉⠀⠀'
+        LINE5='⠡⣝⣫⡭⠖⠋⠁⠀⠀⠀⠀'
         LINE6='           '
         LINE7='           '
         LINE8='           '
