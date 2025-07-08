@@ -677,7 +677,7 @@ else
         LINE6='⠀⠀⠈⠛⠿⠰⠀⠥⠀⠉⠁⠀⠀⠀⠀'
         LINE7='⠀⠀⣶⡆⢐⠓⢶⡄⠀⠀⠀⠀⠀⠀⠀'
         LINE8='⠀⠀⠀⠉⠸⠀⠀⠡⠀⠀⠀⠀⠀⠀⠀'
-        EMPTY='             '
+        EMPTY='               '
     esac
 
     # THIS IS THE PART IT PRINTS OUT!!! THIS IS WHAT YOU WANT TO EDIT IF YOU WANT TO CUSTOMIZE IT!!
