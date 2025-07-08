@@ -666,6 +666,18 @@ else
         LINE7='⠀⠀⠀⠘⢻⣿⠫⠀⠀⠀'
         LINE8='          '
         EMPTY='          ';;
+    'PikaOS')
+        DISTROCOLOUR=$YLOW
+        ACCENTCOLOUR=$WHTE
+        LINE1='⠀ ⠀⠀   ⠠⢭⣶⣿⢻⡷⢔⠆'
+        LINE2='⠀⠀⢴⣶⣶⣶⣦⣄⣸⣿⣟⢝⣿⠏ '
+        LINE3='⠀⣀⠤⠟⠋⠉⠙⢿⣿⡿⡿⡿⠇  '
+        LINE4='⠈⠢⠤⡀ ⠀⣀⣭⣾⣾⡗⠁   '
+        LINE5='⠀ ⠑⠲⠶⠾⠿⠿⠛⠉     '
+        LINE6='⠀    ⠀ ⠀       '
+        LINE7='⠀     ⠀ ⠀      '
+        LINE8='⠀      ⠀ ⠀     '
+        EMPTY='⠀       ⠀ ⠀    ';;
     *)
         DISTROCOLOUR=$LIGR
         ACCENTCOLOUR=$WHTE
