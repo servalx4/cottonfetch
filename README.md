@@ -10,7 +10,7 @@ EDIT 08.07.2025: there is cotton now :]
 
 ## 1. Go into the folder where you downloaded the file
 ```bash
-  cd (directory)
+  cd /path/to/cottonfetch/
   ls
 ```
 
