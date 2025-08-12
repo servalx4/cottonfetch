@@ -1,6 +1,9 @@
 # cottonfetch
 there's no cotton. false advertising. reported to the fbi. lifetime in jail.
 
+[logo]:https://github.com/servalx4/cottonfetch/blob/main/cottonfetch1point8.png "cottonfetch 1.8"
+![logo]
+
 EDIT 08.07.2025: there is cotton now :]
 
 # Installation
