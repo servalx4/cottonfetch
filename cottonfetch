@@ -349,7 +349,7 @@ else
     echo -e ${DISTROCOLOUR}$EMPTY${NC}
     echo -e ${DISTROCOLOUR}$EMPTY${NC} "┌ "${ACCENTCOLOUR}"display"${LIGR}
     echo -e ${DISTROCOLOUR}$EMPTY${NC} "de/wm  ►"${DISTROCOLOUR} $XDG_CURRENT_DESKTOP 
-    echo -e ${DISTROCOLOUR}$EMPTY${NC} "server ►"${DISTROCOLOUR} $XDG_SESSION_TYPE
+    echo -e ${DISTROCOLOUR}$EMPTY${NC} "server ►"${DISTROCOLOUR} $XDG_SESSION_TYPE${NC}
     echo
 fi
 
