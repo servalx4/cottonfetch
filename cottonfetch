@@ -2,7 +2,7 @@
 
 if [[ $* == *--help ]]; then
     echo
-    echo -e "\e[1mcottonfetch v1.8\e[0m"
+    echo -e "\e[1mcottonfetch v1.8.0.0.1\e[0m"
     echo "created by servalx4"
     echo -e "\e[3m\"all hail the holy cult of cotton!!\"\e[0m"
     echo
