@@ -13,7 +13,7 @@
         pkgs.mesa-demos
       ];
 
-      text = builtins.readFile ./cottonfetch.sh;
+      text = builtins.readFile ./cottonfetch;
       checkPhase = "";
     };
 
