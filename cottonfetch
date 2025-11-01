@@ -2,7 +2,7 @@
 
 show_help() {
     echo
-    echo -e "\e[1mcottonfetch 1.10\e[0m"
+    echo -e "\e[1mcottonfetch 1.10.1\e[0m"
     echo "created by servalx4"
     echo -e "\e[3m\"all hail the holy cult of cotton!!\"\e[0m"
 # sometimes, i wonder if farcotton still remembers this program
@@ -39,6 +39,7 @@ declare -A C=(
     [cyn]='\e[0;36m' [lcy]='\e[1;36m'
     [wht]='\e[1;37m' [lgy]='\e[0;37m'
 )
+blink='\033[5m' # thanks, pancoreon!
 
 # gather basics
 kernelname=$(uname -s)
@@ -206,7 +207,8 @@ sep='›' # separator, feel free to change
 #
 # ${dcol} - distro colour
 # ${acol} - accent colour
-# ${C[nc]} - no colour
+# ${blink} - blinking text
+# ${C[nc]} - reset colour/blink
 # ${icon} - distro icon
 # ${sep} - separator
 #
