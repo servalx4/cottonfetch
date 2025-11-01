@@ -2,7 +2,7 @@
 
 show_help() {
     echo
-    echo -e "\e[1mcottonfetch 1.9\e[0m"
+    echo -e "\e[1mcottonfetch 1.10\e[0m"
     echo "created by servalx4"
     echo -e "\e[3m\"all hail the holy cult of cotton!!\"\e[0m"
 # sometimes, i wonder if farcotton still remembers this program
@@ -41,11 +41,11 @@ declare -A C=(
 )
 
 # gather basics
-uname_s=$(uname -s)
-uname_r=$(uname -r)
-uname_m=$(uname -m)
-uname_n=$(uname -n)
-uname_o=$(uname -o)
+kernelname=$(uname -s)
+kernel=$(uname -r)
+architecture=$(uname -m)
+hostname=$(uname -n)
+os=$(uname -o)
 user=$(whoami)
 
 # distro detection
@@ -64,12 +64,12 @@ elif [[ -f /etc/lsb-release ]]; then
 elif [[ -f /etc/debian_version ]]; then
     distro="Debian GNU/Linux"
 else
-    distro=$uname_s
+    distro=$kernelname
 fi
 
 # kernel shorten
-if ! $no_shorten && [[ ${#uname_r} -gt 15 ]]; then
-    uname_r="${uname_r:0:15}..."
+if ! $no_shorten && [[ ${#kernel} -gt 15 ]]; then
+    kernel="${kernel:0:15}..."
 fi
 
 # memory
@@ -186,7 +186,7 @@ case $distro in
     *) dcol=${C[lgy]} acol=${C[wht]} icon='?' ;;
 esac
 
-# ascii logo
+# ascii logo, feel free to change
 ascii=(
 "⠀⠀⠀⠀⠀⠀⢀⠀⣄⠀⣀⡠⠄⠀⠀"
 "⠀⠀⠀⠀⢀⠀⠷⣶⣌⡇⢿⣧⡸⠀⠀"
@@ -195,31 +195,92 @@ ascii=(
 "⠀⠀⢠⣀⡀⢧⡄⠁⢰⣷⡊⠀⠀⠀⠀"
 "⠀⠀⠈⠛⠿⠰⠀⠥⠀⠉⠁⠀⠀⠀⠀"
 "⠀⠀⣶⡆⢐⠓⢶⡄⠀⠀⠀⠀⠀⠀⠀"
-"⠀⠀⠀⠉⠸⠀⠀⠡⠀⠀⠀⠀⠀⠀⠀"
+"⠀⠀⠀⠉⠸⠀⠀⠡⠀⠀⠀⠀⠀⠀⠀" # i'd advise you make every line have the same length, unless you know what you're doing
 )
-empty="               "
-sep='›'
+empty="               " # and make sure this variable is as wide as the ascii logo as well
+sep='›' # separator, feel free to change
 
-# print
-echo
-echo -e "${dcol}${empty}${C[nc]} ${dcol}${user}${C[nc]}@${acol}${uname_n}"
-echo -e "${dcol}${ascii[0]}${C[nc]} ┌ ${acol}os"
-echo -e "${dcol}${ascii[1]}${C[nc]} type ${sep} ${dcol}${icon} ${distro}${C[nc]}"
-echo -e "${dcol}${ascii[2]}${C[nc]} krnl ${sep} ${dcol}${uname_o} ${C[nc]}${uname_r}"
-echo -e "${dcol}${ascii[3]}${C[nc]} arch ${sep} ${dcol}${uname_m}"
-echo -e "${dcol}${ascii[4]}${C[nc]} pkgs ${sep} ${dcol}${pkgs}"
-echo -e "${dcol}${ascii[5]}${C[nc]}"
-echo -e "${dcol}${ascii[6]}${C[nc]} ┌ ${acol}pc${C[nc]}"
-echo -e "${dcol}${ascii[7]}${C[nc]} ram ${sep} ${dcol}${mem_used}/${mem_total}MB${C[nc]}, ${swap_used}/${swap_total}MB swap"
-echo -e "${dcol}${empty}${C[nc]} cpu ${sep} ${dcol}${cpu}"
-echo -e "${dcol}${empty}${C[nc]} gpu ${sep} ${dcol}${gpu}"
-echo -e "${dcol}${empty}${C[nc]} dsk ${sep} ${dcol}${disk_used}/${disk_total}"
-echo -e "${dcol}${empty}${C[nc]}"
-echo -e "${dcol}${empty}${C[nc]} ┌ ${acol}display${C[lgy]}"
-[[ $res ]] && echo -e "${dcol}${empty}${C[nc]} res    ${sep} ${dcol}${res}"
-echo -e "${dcol}${empty}${C[nc]} de/wm  ${sep} ${dcol}${XDG_CURRENT_DESKTOP}"
-echo -e "${dcol}${empty}${C[nc]} server ${sep} ${dcol}${XDG_SESSION_TYPE}"${C[nc]}
-echo
+# info, feel free to change
+#
+# available options:
+#
+# ${dcol} - distro colour
+# ${acol} - accent colour
+# ${C[nc]} - no colour
+# ${icon} - distro icon
+# ${sep} - separator
+#
+# ${hostname}
+# ${user}
+# ${kernel}
+# ${kernelname}
+# ${os}
+# ${pkgs}
+#
+# ${mem_used}
+# ${mem_total
+# ${swap_used}
+# ${swap_total}
+# ${cpu}
+# ${gpu}
+# ${disk_used}
+# ${disk_total}
+# ${architecture}
+#
+# ${res}
+# ${XDG_CURRENT_DESKTOP} - current desktop environment/window manager
+# ${XDG_SESSION_TYPE} - display server, hopefully
+info=(
+'echo'
+'echo -e "${dcol}${user}${C[nc]}@${acol}${hostname}"'
+'echo -e "┌ ${acol}os${C[nc]}"'
+'echo -e "type ${sep} ${dcol}${icon} ${distro}${C[nc]}"'
+'echo -e "krnl ${sep} ${dcol}${os} ${C[nc]}${kernel}${C[nc]}"'
+'echo -e "arch ${sep} ${dcol}${architecture}${C[nc]}"'
+'echo -e "pkgs ${sep} ${dcol}${pkgs}${C[nc]}"'
+'echo'
+'echo -e "┌ ${acol}pc${C[nc]}"'
+'echo -e "ram ${sep} ${dcol}${mem_used}/${mem_total}MB${C[nc]}, ${swap_used}/${swap_total}MB swap"'
+'echo -e "cpu ${sep} ${dcol}${cpu}"${C[nc]}'
+'echo -e "gpu ${sep} ${dcol}${gpu}"${C[nc]}'
+'echo -e "dsk ${sep} ${dcol}${disk_used}/${disk_total}"${C[nc]}'
+'echo'
+'echo -e "┌ ${acol}display${C[nc]}"${C[nc]}'
+'[[ $res ]] && echo -e "res    ${sep} ${dcol}${res}"${C[nc]}'
+'[[ $XDG_CURRENT_DESKTOP ]] && echo -e "de/wm  ${sep} ${dcol}${XDG_CURRENT_DESKTOP}"${C[nc]}'
+'[[ $XDG_SESSION_TYPE ]] && echo -e "server ${sep} ${dcol}${XDG_SESSION_TYPE}"${C[nc]}'
+'echo'
+)
+
+# don't modify this!
+asciilen="${#ascii[@]}"
+infolen="${#info[@]}"
+
+diff=$(( asciilen - infolen ))
+(( diff < 0 )) && diff=0
+
+for (( i = 0; i < asciilen + 1 || i < infolen; i++ )); do
+    if (( i == 0 )); then
+        echo -en "$empty"
+    elif (( i - 1 < asciilen )); then
+        echo -en "${dcol}${ascii[i-1]}${C[nc]}"
+    else
+        echo -en "$empty"
+    fi
+
+    if (( i >= asciilen && diff > 0 )); then
+        for (( j = 0; j < diff; j++ )); do
+            echo -en "$empty"
+        done
+    fi
+
+    if (( i < infolen )); then
+        eval "${info[i]}"
+    else
+        echo ""
+    fi
+done
+
 # Fish support
 #                           .
 #                           A       ;
