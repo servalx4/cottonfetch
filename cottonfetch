@@ -75,7 +75,7 @@ fi
 
 # memory
 read mem_total_kb mem_free_kb swap_total_kb swap_free_kb < <(
-    awk '/MemTotal:/{t=$2} /MemFree:/{f=$2} /SwapTotal:/{st=$2} /SwapFree:/{sf=$2} END{print t,f,st,sf}' /proc/meminfo
+    awk '/MemTotal:/{t=$2} /MemAvailable:/{f=$2} /SwapTotal:/{st=$2} /SwapFree:/{sf=$2} END{print t,f,st,sf}' /proc/meminfo
 )
 mem_total=$((mem_total_kb / 1024))
 mem_free=$((mem_free_kb / 1024))
