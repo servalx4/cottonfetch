@@ -1,360 +1,224 @@
 #!/bin/env bash
 
-if [[ $* == *--help ]]; then
+show_help() {
     echo
-    echo -e "\e[1mcottonfetch v1.8.0.0.1\e[0m"
+    echo -e "\e[1mcottonfetch 1.9\e[0m"
     echo "created by servalx4"
     echo -e "\e[3m\"all hail the holy cult of cotton!!\"\e[0m"
     echo
     echo "usage:"
-    echo "cottonfetch | the fetch"
-    echo "cottonfetch --help | this message"
+    echo "  cottonfetch             show system info"
+    echo "  cottonfetch --help      show this message"
     echo
     echo "thank you for using cottonfetch <3"
     echo
-    echo "shoutout to Hikari on discord for helping me fix fonts, without them cottonfetch would not be possible anymore!"
-    echo "shoutout to ImmaculateKatz (github) for helping me with a LOT of distro specific stuff!"
+    echo "special thanks:"
+    echo "  hikari (discord) — font fixes"
+    echo "  immaculatekatz (github) — distro detection help"
     echo
+}
 
+# flags
+
+[[ $* == *--help* ]] && show_help && exit 0
+
+no_shorten=false
+for arg in "$@"; do
+    [[ $arg == "-ns" || $arg == "--no-shorten" ]] && no_shorten=true
+done
+
+# colors
+declare -A C=(
+    [nc]='\e[0m' [blk]='\e[0;30m' [dgr]='\e[1;30m'
+    [red]='\e[0;31m' [lrd]='\e[1;31m'
+    [grn]='\e[0;32m' [lgr]='\e[1;32m'
+    [ylw]='\e[1;33m' [org]='\e[0;33m'
+    [blu]='\e[0;34m' [lbl]='\e[1;34m'
+    [prp]='\e[0;35m' [lpr]='\e[1;35m'
+    [cyn]='\e[0;36m' [lcy]='\e[1;36m'
+    [wht]='\e[1;37m' [lgy]='\e[0;37m'
+)
+
+# gather basics
+uname_s=$(uname -s)
+uname_r=$(uname -r)
+uname_m=$(uname -m)
+uname_n=$(uname -n)
+uname_o=$(uname -o)
+user=$(whoami)
+
+# distro detection
+if [[ -d /bedrock ]]; then
+    distro="Bedrock"
+elif [[ -f /etc/GoboLinuxVersion ]]; then
+    distro="GoboLinux"
+elif [[ -f /etc/os-release ]]; then
+    . /etc/os-release
+    distro=$NAME
+elif command -v lsb_release &>/dev/null; then
+    distro=$(lsb_release -si)
+elif [[ -f /etc/lsb-release ]]; then
+    . /etc/lsb-release
+    distro=$DISTRIB_ID
+elif [[ -f /etc/debian_version ]]; then
+    distro="Debian GNU/Linux"
 else
-
-    # thanks Mikel !
-    # this is what cottonfetch detects, very advanced, i know
-
-    DISTRO=""
-
-    if [ -f /etc/os-release ]; then
-        . /etc/os-release
-        
-        DISTRO=$NAME
-        
-    elif type lsb_release >/dev/null 2>&1; then
-    
-        DISTRO=$(lsb_release -si)
-
-    elif [ -f /etc/lsb-release ]; then
-        . /etc/lsb-release
-        DISTRO=$DISTRIB_ID
-
-    elif [ -f /etc/debian_version ]; then
-        DISTRO="Debian GNU/Linux"
-
-    elif [ -f /etc/SuSe-release ]; then
-        ...
-        
-    elif [ -f /etc/redhat-release ]; then
-        ...
-        
-    else
-        DISTRO=$(uname -s)
-    fi
-
-    
-    if test -d /bedrock; then
-        DISTRO='Bedrock'
-    elif test -d /etc/GoboLinuxVersion; then
-        DISTRO='Gobolinux'
-    fi 
-    
-
-    OS=`uname -o`
-    KERNEL=`uname`
-    
-    KERNELVER=`uname -r`
-
-    # stackoverflow saves me once again...
-
-    KVLENGTH=`expr "$KERNELVER" : '.*'`
-
-    printf -v KERNELVER '%.*s' 15 "$KERNELVER"
-
-    if (( KVLENGTH > 17 )); then
-        KERNELVER=`echo $KERNELVER"..."`
-    fi
-    
-
-
-    ARCH=`uname -m`
-    HOST=`uname -n`
-    USERNAME=`whoami`
-
-
-
-    TEMP=`cat /proc/meminfo | grep "MemTotal"`
-    TEMP2=`echo $TEMP | awk '{print $2}'`
-    RAM=`echo $(($TEMP2 / 1024))`
-
-    TEMP2=`cat /proc/meminfo | grep "MemFree:"`
-    TEMP=`echo $TEMP2 | awk '{print $2}'`
-    RAMFREE=`echo $(($TEMP / 1024))`
-
-    RAMUSED=`echo $(($RAM - $RAMFREE))`
-
-    TEMP=`cat /proc/meminfo | grep "SwapTotal"`
-    TEMP2=`echo $TEMP | awk '{print $2}'`
-    SWAP=`echo $(($TEMP2 / 1024))`
-
-    TEMP2=`cat /proc/meminfo | grep "SwapFree:"`
-    TEMP=`echo $TEMP2 | awk '{print $2}'`
-    SWAPFREE=`echo $(($TEMP / 1024))`
-
-    SWAPUSED=`echo $(($SWAP - $SWAPFREE))`
-
-
-
-    if [[ "$OS" == 'Android' ]]; then
-        TEMP=`cat /proc/cpuinfo | grep "Hardware" | sort | uniq`
-        TEMP2="${TEMP//"Processor :"}"
-    else
-        TEMP=`cat /proc/cpuinfo | grep "model name" | sort | uniq`
-        TEMP2="${TEMP//"Model name"}"
-    fi
-    
-    CPU=`echo $TEMP2 | awk '{print $4" "$5" "$6" "$7" "$8" "$9" "$10" "$11" "$12" "$13" "$14" "$15" "$16" "$17" "$18" "$19" "$20" "$21}'`
-
-    TEMP=`glxinfo | grep "Device"`
-    GPU="${TEMP//"Device:"}"
-
-    if ! [[ "$GPU" == '' ]]; then
-        GPULENGTH=`expr "$GPU" : '.*'`
-
-        printf -v GPU '%.*s' 50 "$GPU"
-
-        if (( GPULENGTH > 50 )); then
-            GPU=`echo $GPU"..."`
-        fi
-
-    else
-        TEMP2=`lspci | grep "VGA"`
-        GPU="${TEMP2//*"VGA compatible controller:"}"
-        
-
-        if [[ "$GPU" == '' ]]; then
-            GPU="unknown/notfound"
-        fi
-    fi
-
-    if [[ "$OS" == 'Android' ]]; then
-        GPU="none"
-    fi
-
-    if [[ "$CPU" == '' ]]; then
-        CPU="unknown"
-    fi
-
-    # thanks stackoverflow!
-
-    NC='\e[0m'
-    BLCK='\e[0;30m'
-    DAGR='\e[1;30m'
-    RED='\e[0;31m'
-    LIRE='\e[1;31m'
-    GREN='\e[0;32m'
-    LIGN='\e[1;32m'
-    ORNG='\e[0;33m'
-    YLOW='\e[1;33m'
-    BLUE='\e[0;34m'
-    LIBL='\e[1;34m'
-    PRPL='\e[0;35m'
-    LIPR='\e[1;35m'
-    CYAN='\e[0;36m'
-    LICY='\e[1;36m'
-    LIGR='\e[0;37m'
-    WHTE='\e[1;37m'
-
-    # aaand here are the distro logos!
-    # MAKE SURE TO REPLACE SPACES WITH WHITESPACE ASCII CHARACTERS FOR IT WILL BREAK!!!
-
-    case $DISTRO in
-    'NixOS')
-        DISTROCOLOUR=$LIBL
-        ACCENTCOLOUR=$LICY
-	ICON='';;
-    'Debian GNU/Linux')
-        DISTROCOLOUR=$RED
-        ACCENTCOLOUR=$LIGR
-	ICON='';;
-    'Arch Linux')
-        DISTROCOLOUR=$CYAN
-        ACCENTCOLOUR=$LICY
-	ICON='';;
-    'Gentoo')
-        DISTROCOLOUR=$LIGR
-        ACCENTCOLOUR=$LIPR
-	ICON='';;
-    'EndeavourOS') 
-        DISTROCOLOUR=$LIPR
-        ACCENTCOLOUR=$PRPL
-	ICON='';;
-    'Bedrock')
-        DISTROCOLOUR=$LIGR
-        ACCENTCOLOUR=$BLCK
-	ICON='b';;
-    'Android')
-        DISTROCOLOUR=$GREN
-        ACCENTCOLOUR=$GREN
-	ICON='';;
-    'Ubuntu')
-        DISTROCOLOUR=$ORNG
-        ACCENTCOLOUR=$YLOW
-	ICON='';;
-    'Fedora Linux')
-        DISTROCOLOUR=$LIBL
-        ACCENTCOLOUR=$WHTE
-	ICON='';;
-    'KaOS') # do people know this distro exists?
-        DISTROCOLOUR=$LIBL
-        ACCENTCOLOUR=$BLUE
-	ICON='K˳';;
-    'Oreon')
-        DISTROCOLOUR=$WHTE
-        ACCENTCOLOUR=$LIGN
-	ICON='󰛸';;
-    'Void')
-        DISTROCOLOUR=$LIGN
-        ACCENTCOLOUR=$WHTE
-	ICON='';;
-    'Solus')
-        DISTROCOLOUR=$LIGR
-        ACCENTCOLOUR=$BLUE
-	ICON='';;
-    'Red Hat Enterprise Linux')
-        DISTROCOLOUR=$RED
-        ACCENTCOLOUR=$LIRE
-	ICON='';;
-    'openSUSE')
-        DISTROCOLOUR=$GREN
-        ACCENTCOLOUR=$LIGN
-	ICON='';;
-    'FreeBSD')
-        DISTROCOLOUR=$RED
-        ACCENTCOLOUR=$BLCK
-	ICON='';;
-    'Chimera')
-        DISTROCOLOUR=$LIRE
-        ACCENTCOLOUR=$LIPR
-	ICON='𜴫';;
-    'Slackware')
-        DISTROCOLOUR=$BLUE
-        ACCENTCOLOUR=$BLCK
-	ICON='';;
-    'SteamOS')
-        DISTROCOLOUR=$LIBL
-        ACCENTCOLOUR=$LIPR
-	ICON='•)';;
-    'Guix System')
-        DISTROCOLOUR=$YLOW
-        ACCENTCOLOUR=$ORNG
-	ICON='';;
-    'Manjaro Linux')
-        DISTROCOLOUR=$LIGN
-        ACCENTCOLOUR=$GREN
-	ICON='';;
-    'Alpine Linux')
-        DISTROCOLOUR=$BLUE
-        ACCENTCOLOUR=$LIBL
-	ICON='';;
-    'TinyCore')
-        DISTROCOLOUR=$BLCK
-        ACCENTCOLOUR=$LIGR
-	ICON='c⊘re';;
-    'Gobolinux')
-        DISTROCOLOUR=$CYAN
-        ACCENTCOLOUR=$LIPR
-	ICON='';;
-    'Artix Linux')
-        DISTROCOLOUR=$LIBL
-        ACCENTCOLOUR=$LICY
-	ICON='';;
-    'Fatdog64 Linux')
-        DISTROCOLOUR=$WHTE
-        ACCENTCOLOUR=$YLOW
-	ICON='󰩃';;
-    'Linux Mint')
-        DISTROCOLOUR=$LIGN
-        ACCENTCOLOUR=$WHTE
-	ICON='';;
-    'Deepin')
-        DISTROCOLOUR=$LIBL
-        ACCENTCOLOUR=$WHTE
-	ICON='';;
-    'NuTyX')
-        DISTROCOLOUR=$LIBL
-        ACCENTCOLOUR=$BLUE
-	ICON='';;
-    *'Asahi'*)
-        DISTROCOLOUR=$LIRE
-        ACCENTCOLOUR=$BLCK
-	ICON='';;
-    'ArcoLinux')
-        DISTROCOLOUR=$LIBL
-        ACCENTCOLOUR=$LIPR
-	ICON='';;
-    'Archcraft')
-        DISTROCOLOUR=$LICY
-        ACCENTCOLOUR=$LIGN 
-	ICON='';;
-    'Archbang')
-        DISTROCOLOUR=$CYAN
-        ACCENTCOLOUR=$BLUE
-	ICON='ͅ';;
-    'MidOS')
-        DISTROCOLOUR=$BLCK
-        ACCENTCOLOUR=$WHTE
-	ICON='<|>';;
-    'Zorin OS')
-        DISTROCOLOUR=$BLUE
-        ACCENTCOLOUR=$WHTE
-	ICON='';;
-    'CachyOS'*)
-        DISTROCOLOUR=$CYAN
-        ACCENTCOLOUR=$LIGN
-	ICON='C⸪';;
-    'elementary OS')
-        DISTROCOLOUR=$WHTE
-        ACCENTCOLOUR=$LIGR
-	ICON='';;
-    'Pickle')
-        DISTROCOLOUR=$GREN
-        ACCENTCOLOUR=$YLOW
-	ICON='O';;
-    'PikaOS')
-        DISTROCOLOUR=$YLOW
-        ACCENTCOLOUR=$WHTE
-	ICON='󱗆';;
-    esac
-    LINE1='⠀⠀⠀⠀⠀⠀⢀⠀⣄⠀⣀⡠⠄⠀⠀'
-    LINE2='⠀⠀⠀⠀⢀⠀⠷⣶⣌⡇⢿⣧⡸⠀⠀'
-    LINE3='⠀⠀⠀⢀⣠⣄⠀⡓⠡⡀⠆⠀⠀⠀⠀'
-    LINE4='⠀⠀⠀⠻⣿⣶⡆⢁⠈⣀⡀⠀⠀⠀⠀'
-    LINE5='⠀⠀⢠⣀⡀⢧⡄⠁⢰⣷⡊⠀⠀⠀⠀'
-    LINE6='⠀⠀⠈⠛⠿⠰⠀⠥⠀⠉⠁⠀⠀⠀⠀'
-    LINE7='⠀⠀⣶⡆⢐⠓⢶⡄⠀⠀⠀⠀⠀⠀⠀'
-    LINE8='⠀⠀⠀⠉⠸⠀⠀⠡⠀⠀⠀⠀⠀⠀⠀'
-    EMPTY='               '
-
-    # THIS IS THE PART IT PRINTS OUT!!! THIS IS WHAT YOU WANT TO EDIT IF YOU WANT TO CUSTOMIZE IT!!
-
-    echo
-    echo -e ${DISTROCOLOUR}$EMPTY${NC} ${DISTROCOLOUR}$USERNAME${NC}"@"${ACCENTCOLOUR}$HOST
-    echo -e ${DISTROCOLOUR}$LINE1${NC} "┌ "${ACCENTCOLOUR}"os"
-    echo -e ${DISTROCOLOUR}$LINE2${NC} "type ►"${DISTROCOLOUR} $ICON $DISTRO
-    echo -e ${DISTROCOLOUR}$LINE3${NC} "krnl ►"${DISTROCOLOUR} $KERNEL ${NC}$KERNELVER
-    echo -e ${DISTROCOLOUR}$LINE4${NC} "arch ►"${DISTROCOLOUR} $ARCH
-    echo -e ${DISTROCOLOUR}$LINE5${NC}
-    echo -e ${DISTROCOLOUR}$LINE6${NC} "┌ "${ACCENTCOLOUR}"pc"${NC}
-    echo -e ${DISTROCOLOUR}$LINE7${NC} "ram ►"${DISTROCOLOUR} $RAMUSED"/"$RAM"MB," ${NC}$SWAPUSED"/"$SWAP"MB Swap"
-    echo -e ${DISTROCOLOUR}$LINE8${NC} "cpu ►"${DISTROCOLOUR} $CPU 
-    echo -e ${DISTROCOLOUR}$EMPTY${NC} "gpu ►"${DISTROCOLOUR} $GPU
-    echo -e ${DISTROCOLOUR}$EMPTY${NC}
-    echo -e ${DISTROCOLOUR}$EMPTY${NC} "┌ "${ACCENTCOLOUR}"display"${LIGR}
-    echo -e ${DISTROCOLOUR}$EMPTY${NC} "de/wm  ►"${DISTROCOLOUR} $XDG_CURRENT_DESKTOP 
-    echo -e ${DISTROCOLOUR}$EMPTY${NC} "server ►"${DISTROCOLOUR} $XDG_SESSION_TYPE${NC}
-    echo
+    distro=$uname_s
 fi
 
+# kernel shorten
+if ! $no_shorten && [[ ${#uname_r} -gt 15 ]]; then
+    uname_r="${uname_r:0:15}..."
+fi
 
+# memory
+read mem_total_kb mem_free_kb swap_total_kb swap_free_kb < <(
+    awk '/MemTotal:/{t=$2} /MemFree:/{f=$2} /SwapTotal:/{st=$2} /SwapFree:/{sf=$2} END{print t,f,st,sf}' /proc/meminfo
+)
+mem_total=$((mem_total_kb / 1024))
+mem_free=$((mem_free_kb / 1024))
+mem_used=$((mem_total - mem_free))
+swap_total=$((swap_total_kb / 1024))
+swap_used=$((swap_total - swap_free_kb / 1024))
 
+# disk
+read disk_total disk_used < <(df -h --output=size,used / | tail -1)
+
+# cpu
+cpu=$(awk -F: '/model name|Hardware/ {print $2; exit}' /proc/cpuinfo | xargs)
+[[ -z $cpu ]] && cpu="unknown"
+
+# gpu
+if command -v glxinfo &>/dev/null; then
+    gpu=$(glxinfo 2>/dev/null | awk -F: '/Device/ {print $2; exit}' | xargs)
+else
+    gpu=$(lspci 2>/dev/null | awk -F: '/VGA/ {print $3; exit}' | xargs)
+fi
+[[ -z $gpu ]] && gpu="unknown"
+
+if ! $no_shorten && [[ ${#gpu} -gt 40 ]]; then
+    gpu="${gpu:0:40}..."
+fi
+
+# resolution detection
+if command -v xrandr &>/dev/null; then
+    res=$(xrandr | awk '/ connected/{print $4; exit}' | cut -d+ -f1)
+fi
+
+if [[ -z $res ]]; then
+    if command -v wlr-randr &>/dev/null; then
+        res=$(wlr-randr | awk '/\*/{print $1; exit}')
+    elif command -v swaymsg &>/dev/null; then
+        res=$(swaymsg -t get_outputs | grep -oP '"width":\K\d+|"height":\K\d+' | paste -sdx)
+    fi
+fi
+if [[ -z $res ]]; then
+    for card in /sys/class/drm/*-*/; do
+        [[ -f "$card/status" && $(<"$card/status") == "connected" ]] && res=$(head -n1 "$card/modes")
+    done
+fi
+[[ -z $res ]] && res="unknown"
+
+# package count (slow)
+get_pkg_count() {
+    if command -v dpkg-query &>/dev/null; then
+        dpkg-query -f '${binary:Package}\n' -W | wc -l
+    elif command -v pacman &>/dev/null; then
+        pacman -Q | wc -l
+    elif command -v rpm &>/dev/null; then
+        rpm -qa | wc -l
+    elif command -v xbps-query &>/dev/null; then
+        xbps-query -l | wc -l
+    elif command -v equery &>/dev/null; then
+        equery -I | wc -l
+    elif command -v nix-store &>/dev/null; then
+        nix-store --query --requisites /run/current-system/ | wc -l
+    elif command -v apk &>/dev/null; then
+        apk list --installed | wc -l
+    else
+        echo "unknown"
+    fi
+}
+pkgs=$(get_pkg_count)
+
+# distro colors/icons
+case $distro in
+    'NixOS') dcol=${C[lbl]} acol=${C[lcy]} icon='' ;;
+    'Debian GNU/Linux') dcol=${C[red]} acol=${C[lgy]} icon='' ;;
+    'Arch Linux') dcol=${C[cyn]} acol=${C[lcy]} icon='' ;;
+    'Gentoo') dcol=${C[lgr]} acol=${C[lpr]} icon='' ;;
+    'EndeavourOS') dcol=${C[lpr]} acol=${C[prp]} icon='' ;;
+    'Bedrock') dcol=${C[lgy]} acol=${C[blk]} icon='b' ;;
+    'Android') dcol=${C[grn]} acol=${C[grn]} icon='' ;;
+    'Ubuntu') dcol=${C[org]} acol=${C[ylw]} icon='' ;;
+    'Fedora Linux') dcol=${C[lbl]} acol=${C[wht]} icon='' ;;
+    'KaOS') dcol=${C[lbl]} acol=${C[blu]} icon='K˳' ;;
+    'Oreon') dcol=${C[wht]} acol=${C[lgr]} icon='ס' ;; # you should totally use this distro!! https://discord.gg/2zQHkMkQNM
+    'Void') dcol=${C[lgr]} acol=${C[wht]} icon='' ;;
+    'Solus') dcol=${C[lgy]} acol=${C[blu]} icon='' ;; # underrated
+    'Red Hat'*) dcol=${C[red]} acol=${C[lrd]} icon='' ;;
+    'openSUSE') dcol=${C[grn]} acol=${C[lgr]} icon='' ;;
+    'FreeBSD') dcol=${C[red]} acol=${C[blk]} icon='' ;; # cottonfetch doesn't work on it, but why not add it anyway?
+    'Chimera') dcol=${C[lrd]} acol=${C[lpr]} icon='𜴫' ;;
+    'Slackware') dcol=${C[blu]} acol=${C[lgr]} icon='' ;;
+    'SteamOS') dcol=${C[lbl]} acol=${C[lpr]} icon='•)' ;;
+    'Guix'*) dcol=${C[ylw]} acol=${C[org]} icon='' ;;
+    'Manjaro'*) dcol=${C[lgr]} acol=${C[grn]} icon='' ;;
+    'Alpine Linux') dcol=${C[blu]} acol=${C[lbl]} icon='' ;; # my beloved
+    'TinyCore') dcol=${C[blck]} acol=${C[lgy]} icon='⊘ ' ;;
+    'Gobo'*) dcol=${C[cyn]} acol=${C[lbl]} icon='' ;;
+    'Artix'*) dcol=${C[lbl]} acol=${C[lcy]} icon='' ;;
+    'Fatdog64'*) dcol=${C[wht]} acol=${C[ylw]} icon='󰩃' ;;
+    'Linux Mint') dcol=${C[lgr]} acol=${C[wht]} icon='' ;;
+    'Deepin') dcol=${C[lbl]} acol=${C[wht]} icon='' ;;
+    'NuTyX') dcol=${C[wht]} acol=${C[blk]} icon='' ;;
+    *'Asahi'*) dcol=${C[lrd]} acol=${C[blk]} icon='' ;;
+    'Arco'*) dcol=${C[lbl]} acol=${C[lpr]} icon='' ;;
+    'Archcraft') dcol=${C[lcy]} acol=${C[lgr]} icon='' ;;
+    'Archbang') dcol=${C[cyn]} acol=${C[blu]} icon='ͅ' ;;
+    'MidOS') dcol=${C[blk]} acol=${C[wht]} icon='<|>' ;;
+    'Zorin'*) dcol=${C[blu]} acol=${C[wht]} icon='' ;;
+    'CachyOS'*) dcol=${C[cya]} acol=${C[lign]} icon='C⸪' ;;
+    'elementary OS') dcol=${C[wht]} acol=${C[lgy]} icon='' ;;
+    'Pickle') dcol=${C[grn]} acol=${C[ylw]} icon='0' ;;
+    'PikaOS') dcol=${C[ylw]} acol=${C[wht]} icon='󱗆' ;;
+    *) dcol=${C[lgy]} acol=${C[wht]} icon='?' ;;
+esac
+
+# ascii logo
+ascii=(
+"⠀⠀⠀⠀⠀⠀⢀⠀⣄⠀⣀⡠⠄⠀⠀"
+"⠀⠀⠀⠀⢀⠀⠷⣶⣌⡇⢿⣧⡸⠀⠀"
+"⠀⠀⠀⢀⣠⣄⠀⡓⠡⡀⠆⠀⠀⠀⠀"
+"⠀⠀⠀⠻⣿⣶⡆⢁⠈⣀⡀⠀⠀⠀⠀"
+"⠀⠀⢠⣀⡀⢧⡄⠁⢰⣷⡊⠀⠀⠀⠀"
+"⠀⠀⠈⠛⠿⠰⠀⠥⠀⠉⠁⠀⠀⠀⠀"
+"⠀⠀⣶⡆⢐⠓⢶⡄⠀⠀⠀⠀⠀⠀⠀"
+"⠀⠀⠀⠉⠸⠀⠀⠡⠀⠀⠀⠀⠀⠀⠀"
+)
+empty="               "
+sep='›'
+
+# print
+echo
+echo -e "${dcol}${empty}${C[nc]} ${dcol}${user}${C[nc]}@${acol}${uname_n}"
+echo -e "${dcol}${ascii[0]}${C[nc]} ┌ ${acol}os"
+echo -e "${dcol}${ascii[1]}${C[nc]} type ${sep} ${dcol}${icon} ${distro}${C[nc]}"
+echo -e "${dcol}${ascii[2]}${C[nc]} krnl ${sep} ${dcol}${uname_o} ${C[nc]}${uname_r}"
+echo -e "${dcol}${ascii[3]}${C[nc]} arch ${sep} ${dcol}${uname_m}"
+echo -e "${dcol}${ascii[4]}${C[nc]} pkgs ${sep} ${dcol}${pkgs}"
+echo -e "${dcol}${ascii[5]}${C[nc]}"
+echo -e "${dcol}${ascii[6]}${C[nc]} ┌ ${acol}pc${C[nc]}"
+echo -e "${dcol}${ascii[7]}${C[nc]} ram ${sep} ${dcol}${mem_used}/${mem_total}MB${C[nc]}, ${swap_used}/${swap_total}MB swap"
+echo -e "${dcol}${empty}${C[nc]} cpu ${sep} ${dcol}${cpu}"
+echo -e "${dcol}${empty}${C[nc]} gpu ${sep} ${dcol}${gpu}"
+echo -e "${dcol}${empty}${C[nc]} dsk ${sep} ${dcol}${disk_used}/${disk_total}"
+echo -e "${dcol}${empty}${C[nc]}"
+echo -e "${dcol}${empty}${C[nc]} ┌ ${acol}display${C[lgy]}"
+[[ $res ]] && echo -e "${dcol}${empty}${C[nc]} res    ${sep} ${dcol}${res}"
+echo -e "${dcol}${empty}${C[nc]} de/wm  ${sep} ${dcol}${XDG_CURRENT_DESKTOP}"
+echo -e "${dcol}${empty}${C[nc]} server ${sep} ${dcol}${XDG_SESSION_TYPE}"${C[nc]}
+echo
 # Fish support
 #                           .
 #                           A       ;
