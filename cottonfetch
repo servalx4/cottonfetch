@@ -5,6 +5,7 @@ show_help() {
     echo -e "\e[1mcottonfetch 1.9\e[0m"
     echo "created by servalx4"
     echo -e "\e[3m\"all hail the holy cult of cotton!!\"\e[0m"
+# sometimes, i wonder if farcotton still remembers this program
     echo
     echo "usage:"
     echo "  cottonfetch             show system info"
