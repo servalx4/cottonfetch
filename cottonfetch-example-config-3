@@ -1,0 +1,14 @@
+# pkgs=$(get_pkg_count)
+# ^ ^ ^ comment this out above the distro case statement for a significant speed up on some distros (mainly fedora)
+
+# ...
+
+info=(
+'echo'
+'echo -e "${dcol}${user}${C[nc]}@${acol}${hostname}"'
+'echo -e "os     ${sep} ${dcol}${distro}${C[nc]}"'
+'echo -e "krnl   ${sep} ${dcol}${kernel}${C[nc]}"'
+'echo -e "cpu    ${sep} ${dcol}${cpu}"${C[nc]}'
+'echo -e "de/wm  ${sep} ${dcol}${XDG_CURRENT_DESKTOP}"${C[nc]}'
+'echo'
+)
