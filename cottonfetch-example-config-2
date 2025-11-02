@@ -5,9 +5,9 @@ done
 
 dashes='─'
 while (( ${#dashes} < $((max + 4)) )); do
-    dashes+=$dashes   # double the string each loop
+    dashes+=$dashes
 done
-dashes=${dashes:0:$((max + 4))}  # truncate to exact length
+dashes=${dashes:0:$((max + 4))}
 info=(
 'echo'
 'echo -e "╭${dashes}╮"'
