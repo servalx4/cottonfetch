@@ -49,6 +49,9 @@ hostname=$(uname -n)
 os=$(uname -o)
 user=$(whoami)
 
+[[ -z $XDG_SESSION_TYPE ]] && XDG_SESSION_TYPE='unknown'
+[[ -z $XDG_CURRENT_DESKTOP ]] && XDG_CURRENT_DESKTOP='unknown'
+
 # distro detection
 if [[ -d /bedrock ]]; then
     distro="Bedrock"
@@ -235,22 +238,22 @@ sep='›' # separator, feel free to change
 info=(
 'echo'
 'echo -e "${dcol}${user}${C[nc]}@${acol}${hostname}"'
-'echo -e "┌ ${acol}os${C[nc]}"'
+'echo -e "╭ ${acol}os${C[nc]}"'
 'echo -e "type ${sep} ${dcol}${icon} ${distro}${C[nc]}"'
 'echo -e "krnl ${sep} ${dcol}${os} ${C[nc]}${kernel}${C[nc]}"'
 'echo -e "arch ${sep} ${dcol}${architecture}${C[nc]}"'
 'echo -e "pkgs ${sep} ${dcol}${pkgs}${C[nc]}"'
 'echo'
-'echo -e "┌ ${acol}pc${C[nc]}"'
+'echo -e "╭ ${acol}pc${C[nc]}"'
 'echo -e "ram ${sep} ${dcol}${mem_used}/${mem_total}MB${C[nc]}, ${swap_used}/${swap_total}MB swap"'
 'echo -e "cpu ${sep} ${dcol}${cpu}"${C[nc]}'
 'echo -e "gpu ${sep} ${dcol}${gpu}"${C[nc]}'
 'echo -e "dsk ${sep} ${dcol}${disk_used}/${disk_total}"${C[nc]}'
 'echo'
-'echo -e "┌ ${acol}display${C[nc]}"${C[nc]}'
-'[[ $res ]] && echo -e "res    ${sep} ${dcol}${res}"${C[nc]}'
-'[[ $XDG_CURRENT_DESKTOP ]] && echo -e "de/wm  ${sep} ${dcol}${XDG_CURRENT_DESKTOP}"${C[nc]}'
-'[[ $XDG_SESSION_TYPE ]] && echo -e "server ${sep} ${dcol}${XDG_SESSION_TYPE}"${C[nc]}'
+'echo -e "╭ ${acol}display${C[nc]}"${C[nc]}'
+'echo -e "res    ${sep} ${dcol}${res}"${C[nc]}'
+'echo -e "de/wm  ${sep} ${dcol}${XDG_CURRENT_DESKTOP}"${C[nc]}'
+'echo -e "server ${sep} ${dcol}${XDG_SESSION_TYPE}"${C[nc]}'
 'echo'
 )
 
