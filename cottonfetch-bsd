@@ -128,20 +128,10 @@ fi
 
 # package count (slow)
 get_pkg_count() {
-    if command -v dpkg-query &>/dev/null; then
-        dpkg-query -f '${binary:Package}\n' -W | wc -l
-    elif command -v pacman &>/dev/null; then
-        pacman -Q | wc -l
-    elif command -v rpm &>/dev/null; then
-        rpm -qa | wc -l
-    elif command -v xbps-query &>/dev/null; then
-        xbps-query -l | wc -l
-    elif command -v equery &>/dev/null; then
-        equery -I | wc -l
-    elif command -v nix-store &>/dev/null; then
-        nix-store --query --requisites /run/current-system/ | wc -l
-    elif command -v apk &>/dev/null; then
-        apk list --installed | wc -l
+    if command -v pkg &>/dev/null; then
+        pkg info | wc -l
+    elif command -v brew &>/dev/null; then
+        brew list | wc -l
     else
         echo "unknown"
     fi
@@ -150,45 +140,8 @@ pkgs=$(get_pkg_count)
 
 # distro colors/icons
 case $distro in
-    'NixOS') dcol=${C[lbl]} acol=${C[lcy]} icon='' ;;
-    'Debian GNU/Linux') dcol=${C[red]} acol=${C[lgy]} icon='' ;;
-    'Arch Linux') dcol=${C[cyn]} acol=${C[lcy]} icon='' ;;
-    'Gentoo') dcol=${C[lgr]} acol=${C[lpr]} icon='' ;;
-    'EndeavourOS') dcol=${C[lpr]} acol=${C[prp]} icon='' ;;
-    'Bedrock') dcol=${C[lgy]} acol=${C[blk]} icon='b' ;;
-    'Android') dcol=${C[grn]} acol=${C[grn]} icon='' ;;
-    'Ubuntu') dcol=${C[org]} acol=${C[ylw]} icon='' ;;
-    'Fedora Linux') dcol=${C[lbl]} acol=${C[wht]} icon='' ;;
-    'KaOS') dcol=${C[lbl]} acol=${C[blu]} icon='K˳' ;;
-    'Oreon') dcol=${C[wht]} acol=${C[lgr]} icon='ס' ;; # you should totally use this distro!! https://discord.gg/2zQHkMkQNM
-    'Void') dcol=${C[lgr]} acol=${C[wht]} icon='' ;;
-    'Solus') dcol=${C[lgy]} acol=${C[blu]} icon='' ;; # underrated
-    'Red Hat'*) dcol=${C[red]} acol=${C[lrd]} icon='' ;;
-    'openSUSE') dcol=${C[grn]} acol=${C[lgr]} icon='' ;;
-    'FreeBSD') dcol=${C[red]} acol=${C[blk]} icon='' ;; # cottonfetch doesn't work on it, but why not add it anyway?
-    'Chimera') dcol=${C[lrd]} acol=${C[lpr]} icon='𜴫' ;;
-    'Slackware') dcol=${C[blu]} acol=${C[lgr]} icon='' ;;
-    'SteamOS') dcol=${C[lbl]} acol=${C[lpr]} icon='•)' ;;
-    'Guix'*) dcol=${C[ylw]} acol=${C[org]} icon='' ;;
-    'Manjaro'*) dcol=${C[lgr]} acol=${C[grn]} icon='' ;;
-    'Alpine Linux') dcol=${C[blu]} acol=${C[lbl]} icon='' ;; # my beloved
-    'TinyCore') dcol=${C[blck]} acol=${C[lgy]} icon='⊘ ' ;;
-    'Gobo'*) dcol=${C[cyn]} acol=${C[lbl]} icon='' ;;
-    'Artix'*) dcol=${C[lbl]} acol=${C[lcy]} icon='' ;;
-    'Fatdog64'*) dcol=${C[wht]} acol=${C[ylw]} icon='󰩃' ;;
-    'Linux Mint') dcol=${C[lgr]} acol=${C[wht]} icon='' ;;
-    'Deepin') dcol=${C[lbl]} acol=${C[wht]} icon='' ;;
-    'NuTyX') dcol=${C[wht]} acol=${C[blk]} icon='' ;;
-    *'Asahi'*) dcol=${C[lrd]} acol=${C[blk]} icon='' ;;
-    'Arco'*) dcol=${C[lbl]} acol=${C[lpr]} icon='' ;;
-    'Archcraft') dcol=${C[lcy]} acol=${C[lgr]} icon='' ;;
-    'Archbang') dcol=${C[cyn]} acol=${C[blu]} icon='ͅ' ;;
-    'MidOS') dcol=${C[blk]} acol=${C[wht]} icon='<|>' ;;
-    'Zorin'*) dcol=${C[blu]} acol=${C[wht]} icon='' ;;
-    'CachyOS'*) dcol=${C[cya]} acol=${C[lign]} icon='C⸪' ;;
-    'elementary OS') dcol=${C[wht]} acol=${C[lgy]} icon='' ;;
-    'Pickle') dcol=${C[grn]} acol=${C[ylw]} icon='0' ;;
-    'PikaOS') dcol=${C[ylw]} acol=${C[wht]} icon='󱗆' ;;
+    'FreeBSD') dcol=${C[red]} acol=${C[blk]} icon='' ;;
+    'OpenBSD') dcol=${C[ylw]} acol=${C[lgy]} icon='⛨' ;;
     *) dcol=${C[lgy]} acol=${C[wht]} icon='?' ;;
 esac
 
@@ -204,7 +157,7 @@ ascii=(
 "⠀⠀⠀⠉⠸⠀⠀⠡⠀⠀⠀⠀⠀⠀⠀" # i'd advise you make every line have the same length, unless you know what you're doing
 )
 empty="               " # and make sure this variable is as wide as the ascii logo as well
-sep='›' # separator, feel free to change
+sep='>' # separator, feel free to change
 
 # info, feel free to change
 #
