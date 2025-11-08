@@ -48,7 +48,7 @@ blink='\033[5m' # thanks, pancoreon!
 kernelname=$(uname -s)
 kernel=$(uname -r)
 architecture=$(uname -m)
-hostname=$(uname -n)
+hostname=$(hostname)
 os=$(uname -o)
 user=$(whoami)
 
