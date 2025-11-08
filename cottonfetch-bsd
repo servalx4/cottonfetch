@@ -161,7 +161,7 @@ ascii=(
 "⠀⠀⡼⣙⢞⢧⡑⢕⠔⣅⢢⡑⢌⡾⡹⣚⠕⢮⠆⠀"
 "⠀⠀⠻⣬⡪⣎⠯⠛⢸⠀⡷⣝⢏⢎⢎⢦⡛⡼⠃⠀"
 "⠀⠀⠀⠀⠀⠀⠀⠀⠈⡆⡇⠈⠓⠙⠊⠊⠉⠀⠀⠀"
-"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀"# i'd advise you make every line have the same length, unless you know what you're doing
+"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀" # i'd advise you make every line have the same length, unless you know what you're doing
 )
 empty="⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" # and make sure this variable is as wide as the ascii logo as well
 sep='>' # separator, feel free to change
