@@ -93,8 +93,7 @@ swap_used=$((swap_total - swap_free_kb / 1024))
 read disk_total disk_used < <(df -h --output=size,used / | tail -1)
 
 # cpu
-cpu=$(awk -F: '/model name|Hardware/ {print $2; exit}' /proc/cpuinfo | xargs)
-[[ -z $cpu ]] && cpu="unknown"
+cpu=$(sysctl -n hw.model 2>/dev/null || echo "unknown")
 
 # gpu
 if command -v glxinfo &>/dev/null; then
