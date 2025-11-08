@@ -9,6 +9,7 @@ show_help() {
     echo
     echo "usage:"
     echo "  cottonfetch             show system info"
+    echo "  cottonfetch             show system info, no shortening"
     echo "  cottonfetch --help      show this message"
     echo
     echo "thank you for using cottonfetch <3"
