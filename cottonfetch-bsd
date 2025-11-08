@@ -90,7 +90,7 @@ swap_total=$((swap_total_kb / 1024))
 swap_used=$((swap_total - swap_free_kb / 1024))
 
 # disk
-read disk_total disk_used <<<$(df -h / | awk 'NR==2 {printf "%.1fGB %.1fGB", $2/1024/1024, $3/1024/1024}')
+read disk_total disk_used <<<$(df -k / | awk 'NR==2 {printf "%.1fGB %.1fGB", $2/1024/1024, $3/1024/1024}')
 
 # cpu
 cpu=$(sysctl -n hw.model 2>/dev/null || echo "unknown")
