@@ -80,14 +80,19 @@ if ! $no_shorten && [[ ${#kernel} -gt 15 ]]; then
 fi
 
 # memory
-read mem_total_kb mem_free_kb swap_total_kb swap_free_kb < <(
-    awk '/MemTotal:/{t=$2} /MemAvailable:/{f=$2} /SwapTotal:/{st=$2} /SwapFree:/{sf=$2} END{print t,f,st,sf}' /proc/meminfo
-)
-mem_total=$((mem_total_kb / 1024))
-mem_free=$((mem_free_kb / 1024))
-mem_used=$((mem_total - mem_free))
-swap_total=$((swap_total_kb / 1024))
-swap_used=$((swap_total - swap_free_kb / 1024))
+if command -v sysctl &>/dev/null; then
+    mem_total=$(( $(sysctl -n hw.physmem) / 1024 / 1024 ))
+    mem_free=$(( $(sysctl -n vm.stats.vm.v_free_count) * $(sysctl -n hw.pagesize) / 1024 / 1024 ))
+    mem_used=$((mem_total - mem_free))
+    swap_total=$(swapinfo -k | awk 'NR==2 {print $2/1024}')
+    swap_used=$(swapinfo -k | awk 'NR==2 {print ($2-$3)/1024}')
+else
+    mem_total=unknown
+    mem_free=unknown
+    mem_used=unknown
+    swap_total=unknown
+    swap_used=unknown
+fi
 
 # disk
 read disk_total disk_used <<<$(df -k / | awk 'NR==2 {printf "%.1fGB %.1fGB", $2/1024/1024, $3/1024/1024}')
