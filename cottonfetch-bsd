@@ -141,8 +141,8 @@ pkgs=$(get_pkg_count)
 
 # distro colors/icons
 case $distro in
-    'FreeBSD') dcol=${C[red]} acol=${C[blk]} icon='' ;;
-    'OpenBSD') dcol=${C[ylw]} acol=${C[lgy]} icon='⛨' ;;
+    'FreeBSD') dcol=${C[red]} acol=${C[lrd]} icon='' ;;
+    'OpenBSD') dcol=${C[ylw]} acol=${C[lgy]} icon='' ;;
     *) dcol=${C[lgy]} acol=${C[wht]} icon='?' ;;
 esac
 
