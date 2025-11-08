@@ -130,7 +130,7 @@ fi
 # package count (slow)
 get_pkg_count() {
     if command -v pkg &>/dev/null; then
-        ${$(pkg info | wc -l)#${$(pkg info | wc -l)%%[![:space:]]*}}
+        pkg info | wc -l | sed 's/^[[:space:]]*//'
     elif command -v brew &>/dev/null; then
         brew list | wc -l
     else
