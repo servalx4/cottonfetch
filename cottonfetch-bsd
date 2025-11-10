@@ -56,11 +56,7 @@ user=$(whoami)
 [[ -z $XDG_CURRENT_DESKTOP ]] && XDG_CURRENT_DESKTOP='unknown'
 
 # distro detection
-if [[ -d /bedrock ]]; then
-    distro="Bedrock"
-elif [[ -f /etc/GoboLinuxVersion ]]; then
-    distro="GoboLinux"
-elif [[ -f /etc/os-release ]]; then
+if [[ -f /etc/os-release ]]; then
     . /etc/os-release
     distro=$NAME
 elif command -v lsb_release &>/dev/null; then
@@ -68,8 +64,6 @@ elif command -v lsb_release &>/dev/null; then
 elif [[ -f /etc/lsb-release ]]; then
     . /etc/lsb-release
     distro=$DISTRIB_ID
-elif [[ -f /etc/debian_version ]]; then
-    distro="Debian GNU/Linux"
 else
     distro=$kernelname
 fi
