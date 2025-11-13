@@ -188,6 +188,7 @@ case $distro in
     'elementary OS') dcol=${C[wht]} acol=${C[lgy]} icon='' ;;
     'Pickle') dcol=${C[grn]} acol=${C[ylw]} icon='0' ;;
     'PikaOS') dcol=${C[ylw]} acol=${C[wht]} icon='󱗆' ;;
+    'Vanilla OS') dcol=${C[ylw]} acol=${C[ylw]} icon='';;
     *) dcol=${C[lgy]} acol=${C[wht]} icon='?' ;;
 esac
 
