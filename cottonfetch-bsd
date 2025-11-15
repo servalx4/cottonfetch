@@ -4,7 +4,7 @@
 
 show_help() {
     echo
-    echo -e "\e[1mcottonfetch 1.10.1\e[0m"
+    echo -e "\e[1mcottonfetch 1.10.2\e[0m"
     echo "created by servalx4"
     echo -e "\e[3m\"all hail the holy cult of cotton!!\"\e[0m"
 # sometimes, i wonder if farcotton still remembers this program
@@ -90,6 +90,7 @@ fi
 
 # disk
 read disk_total disk_used <<<$(df -k / | awk 'NR==2 {printf "%.1fGB %.1fGB", $2/1024/1024, $3/1024/1024}')
+filesystem="$(df -T / | tail -1 | awk '{print $2; exit}')"
 
 # cpu
 cpu=$(sysctl -n hw.model 2>/dev/null || echo "unknown")
@@ -186,6 +187,7 @@ sep='>' # separator, feel free to change
 # ${gpu}
 # ${disk_used}
 # ${disk_total}
+# ${filesystem}
 # ${architecture}
 #
 # ${res}
