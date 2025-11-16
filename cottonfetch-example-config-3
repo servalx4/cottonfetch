@@ -1,5 +1,5 @@
 # pkgs=$(get_pkg_count)
-# ^ ^ ^ comment this out above the distro case statement for a significant speed up on some distros (mainly fedora)
+# ^ ^ ^ comment this out above the distro case statement for a significant speed up on some distros (mainly those that use rpm)
 
 # ...
 
