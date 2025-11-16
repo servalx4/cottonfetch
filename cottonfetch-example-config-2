@@ -1,5 +1,5 @@
 max=0 # config 2 specific
-for v in "$hostname@$user" "type $sep $icon $distro" "krnl $sep $os $kernel" "arch $sep $architecture" "pkgs $sep $pkgs" "ram $sep $mem_used"/"$mem_total"," $swap_used"/"$swap_total"MB swap"" "cpu $sep $cpu" "gpu $sep $gpu" "dsk $sep $disk_used"/"$disk_total" "res    $sep $res" "de/wm  $sep $XDG_CURRENT_DESKTOP" "server $sep $XDG_SESSION_TYPE"; do
+for v in "$hostname@$user" "type $sep $icon $distro" "krnl $sep $os $kernel" "arch $sep $architecture" "pkgs $sep $pkgs" "ram $sep $mem_used"/"$mem_total"," $swap_used"/"$swap_total"MB swap"" "cpu $sep $cpu" "gpu $sep $gpu" "dsk $sep $disk_used"/"$disk_total, $filesystem" "res    $sep $res" "de/wm  $sep $XDG_CURRENT_DESKTOP" "server $sep $XDG_SESSION_TYPE"; do
     (( ${#v} > max )) && max=${#v}
 done
 
