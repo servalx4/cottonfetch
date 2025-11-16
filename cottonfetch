@@ -211,7 +211,7 @@ get_distro_icon() {
     'Archbang') dcol=${C[cyn]} acol=${C[blu]} icon='ͅ' ;;
     'MidOS') dcol=${C[blk]} acol=${C[wht]} icon='<|>' ;;
     'Zorin'*) dcol=${C[blu]} acol=${C[wht]} icon='' ;;
-    'CachyOS'*) dcol=${C[cya]} acol=${C[lgn]} icon='C⸪' ;;
+    'CachyOS'*) dcol=${C[lgr]} acol=${C[lcy]} icon='C⸪' ;;
     'elementary OS') dcol=${C[wht]} acol=${C[lgy]} icon='' ;;
     'Pickle') dcol=${C[grn]} acol=${C[ylw]} icon='0' ;;
     'PikaOS') dcol=${C[ylw]} acol=${C[wht]} icon='󱗆' ;;
