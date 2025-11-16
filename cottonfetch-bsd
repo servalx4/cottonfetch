@@ -4,7 +4,7 @@
 
 show_help() {
     echo
-    echo -e "\e[1mcottonfetch 1.10.2\e[0m"
+    echo -e "\e[1mcottonfetch 1.10.3\e[0m"
     echo "created by servalx4"
     echo -e "\e[3m\"all hail the holy cult of cotton!!\"\e[0m"
 # sometimes, i wonder if farcotton still remembers this program
@@ -107,6 +107,9 @@ if ! $no_shorten && [[ ${#gpu} -gt 40 ]]; then
     gpu="${gpu:0:40}..."
 fi
 
+# uptime
+uptime=$(uptime -p | cut -d' ' -f2-)
+
 # resolution detection
 if command -v xrandr &>/dev/null; then
     res=$(xrandr | awk '/ connected/{print $4; exit}' | cut -d+ -f1)
@@ -189,6 +192,7 @@ sep='>' # separator, feel free to change
 # ${disk_total}
 # ${filesystem}
 # ${architecture}
+# ${uptime}
 #
 # ${res}
 # ${XDG_CURRENT_DESKTOP} - current desktop environment/window manager
