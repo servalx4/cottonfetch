@@ -22,6 +22,8 @@ it's a fetch
   ./cottonfetch
 ```
 
+NOTE: don't run as sudo, it breaks the display server variable.
+
 ## Additional: Add cottonfetch into PATH (run anywhere)
 ```bash
   sudo mv cottonfetch /usr/local/bin/
