@@ -1,5 +1,3 @@
-#!/bin/env bash
-
 show_help() {
   echo
   echo -e "\e[1mcottonfetch 1.11\e[0m"
