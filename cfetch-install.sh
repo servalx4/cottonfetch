@@ -26,15 +26,32 @@ declare -A C=(
 )
 blink='\033[5m' # thanks, pancoreon!
 user="$(whoami)"
-bash="$(which bash 2>/dev/null)"
+bash="#!$(which bash 2>/dev/null)"
 busybox="$(which busybox 2>/dev/null)"
 
 echo
 echo "cottonfetch 1.11 installer"
 echo
+
+directory="/usr/bin/" # default
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -d|--directory)
+      directory="$2"
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+! [ -d $directory ] && echo -e "${C[red]}error:${C[nc]} invalid directory." && exit 2
+
 if ! [[ $user == "root" ]]; then
   echo -e "${C[red]}error:${C[nc]} you need to be root." && exit 1
 fi
+
 missing_critical=""
 missing_file=""
 missing=""
@@ -64,11 +81,11 @@ done
 
 if [ -n "$missing_critical" ]; then
     echo -e "${C[red]}missing critical deps:${C[nc]} $missing_critical"
-    exit 1
+    exit 3
 fi
 if [ -n "$missing_file" ]; then
     echo -e "${C[red]}missing critical files:${C[nc]} $missing_file"
-    exit 1
+    exit 4
 fi
 if [ -n "$missing" ]; then
     echo -e "${C[red]}missing deps:${C[nc]} $missing"
@@ -446,7 +463,7 @@ done
 #                            '     '
 EOF
 chmod +x cottonfetch
-mv cottonfetch "$(echo $PATH | cut -d: -f1)"
+mv cottonfetch "$directory"
 if [ -f "$(echo $PATH | cut -d: -f1)"/cottonfetch ]; then
     if [[ $success == "1" ]]; then
         echo -e "${C[grn]}installation completed successfully!${C[nc]}"
