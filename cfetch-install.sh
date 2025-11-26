@@ -454,3 +454,5 @@ if [ -f "$(echo $PATH | cut -d: -f1)"/cottonfetch ]; then
         echo -e "${C[ylw]}installation completed, errors reported.${C[nc]}"
     fi
 fi
+echo "NOTE: this script is intended to be modified. don't like how the output looks? edit info(). don't like the ascii art? edit ascii()."
+echo "is cottonfetch being really slow? consider commenting out get_pkg_count, most likely the culprit. don't forget to remove package count in info(), or it'll just be empty."
