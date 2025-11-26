@@ -50,7 +50,7 @@ done
 ! [ -d "$directory" ] && echo -e "${C[red]}error:${C[nc]} invalid directory." && exit 2
 touch "$directory"/tmpfile 2>/dev/null
 if ! [ -f "$directory"/tmpfile ]; then
-  echo -e "${C[red]}error:${C[nc]} user has no write permission in chosen directory." && exit 1
+  echo -e "${C[red]}error:${C[nc]} user has no write permission in directory $directory." && exit 1
 fi
 rm "$directory"/tmpfile 2>/dev/null
 
