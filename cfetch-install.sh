@@ -4,7 +4,8 @@ show_help() {
   echo "created by servalx4"
   echo
   echo "usage:"
-  echo "  cfetch-install             show system info"
+  echo "  cfetch-install             install cottonfetch"
+  echo "  cfetch-install -d <dir>    install cottonfetch to directory"
   echo "  cfetch-install --help      show this message"
   echo
   echo "thank you for using cottonfetch <3"
