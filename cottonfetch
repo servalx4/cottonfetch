@@ -186,7 +186,7 @@ get_distro_icon() {
     'Ubuntu') dcol=${C[org]} acol=${C[ylw]} icon='' ;;
     'Fedora Linux') dcol=${C[lbl]} acol=${C[wht]} icon='' ;;
     'KaOS') dcol=${C[lbl]} acol=${C[blu]} icon='K˳' ;;
-    'Oreon') dcol=${C[wht]} acol=${C[lgr]} icon='ס' ;; # you should totally use this distro!! https://discord.gg/2zQHkMkQNM
+    'Oreon') dcol=${C[wht]} acol=${C[lgy]} icon='ס' ;; # you should totally use this distro!! https://discord.gg/2zQHkMkQNM
     'Void') dcol=${C[lgr]} acol=${C[wht]} icon='' ;;
     'Solus') dcol=${C[lgy]} acol=${C[blu]} icon='' ;; # underrated
     'Red Hat'*) dcol=${C[red]} acol=${C[lrd]} icon='' ;;
