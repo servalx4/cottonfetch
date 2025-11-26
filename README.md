@@ -12,19 +12,8 @@ it's a fetch
   ls
 ```
 
-## 2. Make the file exexutable
+## 2. Run `cfetch-install.sh`
 ```bash
-  chmod +x cottonfetch
-```
-
-## 3. Run it
-```bash
-  ./cottonfetch
-```
-
-NOTE: don't run as sudo, it breaks the display server variable.
-
-## Additional: Add cottonfetch into PATH (run anywhere)
-```bash
-  sudo mv cottonfetch /usr/local/bin/
+  chmod +x cfetch-install.sh
+  ./cfetch-install
 ```
