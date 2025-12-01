@@ -156,7 +156,7 @@ get_pkg_count() {
     pkgs=$(dpkg-query -f '${binary:Package}\n' -W | grep -c .)
   elif command -v pacman &>/dev/null; then
     pkgs=$(pacman -Q | grep -c .)
-  elif command -v rpm &>/dev/null; then
+  elif command -v rpm &>/dev/null && ! [ -d /var/log/packages ]; then
     pkgs=$(rpm -qa | grep -c .)
   elif command -v xbps-query &>/dev/null; then
     pkgs=$(xbps-query -l | grep -c .)
@@ -179,7 +179,7 @@ get_distro_icon() {
     'NixOS') dcol=${C[lbl]} acol=${C[lcy]} icon='' ;;
     'Debian GNU/Linux') dcol=${C[red]} acol=${C[lgy]} icon='' ;;
     'Arch Linux') dcol=${C[cyn]} acol=${C[lcy]} icon='' ;;
-    'Gentoo') dcol=${C[lgr]} acol=${C[lpr]} icon='' ;;
+    'Gentoo') dcol=${C[lgy]} acol=${C[lpr]} icon='' ;;
     'EndeavourOS') dcol=${C[lpr]} acol=${C[prp]} icon='' ;;
     'Bedrock') dcol=${C[lgy]} acol=${C[blk]} icon='b' ;;
     'Android') dcol=${C[grn]} acol=${C[grn]} icon='' ;;
@@ -193,7 +193,7 @@ get_distro_icon() {
     'openSUSE') dcol=${C[grn]} acol=${C[lgr]} icon='' ;;
     'FreeBSD') dcol=${C[red]} acol=${C[blk]} icon='' ;; # cottonfetch doesn't work on it, but why not add it anyway?
     'Chimera') dcol=${C[lrd]} acol=${C[lpr]} icon='𜴫' ;;
-    'Slackware') dcol=${C[blu]} acol=${C[lgr]} icon='' ;;
+    'Slackware') dcol=${C[blu]} acol=${C[lgy]} icon='' ;;
     'SteamOS') dcol=${C[lbl]} acol=${C[lpr]} icon='•)' ;;
     'Guix'*) dcol=${C[ylw]} acol=${C[org]} icon='' ;;
     'Manjaro'*) dcol=${C[lgr]} acol=${C[grn]} icon='' ;;
