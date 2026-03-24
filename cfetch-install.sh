@@ -1,6 +1,6 @@
 show_help() {
   echo
-  echo -e "\e[1mcottonfetch 1.11 installer\e[0m"
+  echo -e "\e[1mcottonfetch 1.111 installer\e[0m"
   echo "created by servalx4"
   echo
   echo "usage:"
