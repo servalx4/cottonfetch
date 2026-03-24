@@ -1,6 +1,6 @@
 show_help() {
   echo
-  echo -e "\e[1mcottonfetch 1.11\e[0m"
+  echo -e "\e[1mcottonfetch 1.111\e[0m"
   echo "created by servalx4"
   echo -e "\e[3m\"all hail the holy cult of cotton!!\"\e[0m"
   # sometimes, i wonder if farcotton still remembers this program
@@ -216,6 +216,7 @@ get_distro_icon() {
     'Pickle') dcol=${C[grn]} acol=${C[ylw]} icon='0' ;;
     'PikaOS') dcol=${C[ylw]} acol=${C[wht]} icon='󱗆' ;;
     'Vanilla OS') dcol=${C[ylw]} acol=${C[ylw]} icon='';;
+    *'Ageless'*) dcol=${C[ylw]} acol=${C[wht]} icon='';;
     *) dcol=${C[lgy]} acol=${C[wht]} icon='?' ;;
   esac
 }
